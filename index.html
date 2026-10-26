@@ -72,7 +72,7 @@
         .chapter-label {
             margin-bottom: 10px;
             color: var(--blue);
-            font-size: 12px;
+            font-size: 25px;
             font-weight: 700;
             letter-spacing: 1.8px;
             text-transform: uppercase;
@@ -93,34 +93,35 @@
         }
 
         .chart-card {
-            padding: 24px 20px 16px;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            background: #FFFFFF;
+            padding: 0;
+            border: none;
+            border-radius: 0;
+            background: transparent;
         }
 
         #chart {
             width: 100%;
+            margin: 0;
         }
 
         .insight {
-            margin-top: 22px;
-            padding: 20px 22px;
-            border-left: 4px solid var(--teal);
-            background: #F4F8FA;
-            border-radius: 0 8px 8px 0;
+            margin-top: 14px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            border-radius: 0;
         }
 
         .insight strong {
             display: block;
-            margin-bottom: 5px;
-            color: var(--navy);
+            margin-bottom: 4px;
+            color: #142B4A;
         }
 
         .insight p {
             margin: 0;
             color: #42566E;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .source {
@@ -171,7 +172,7 @@
 
         <section>
             <div class="chapter-label">
-                Are we actally spending that much
+                Are we actally spending that much?
             </div>
 
             <p class="chart-description">
@@ -180,25 +181,18 @@
                 to see how the relationship between the two has changed.
             </p>
 
-            <div class="chart-card">
-                <div id="chart"></div>
-            </div>
+            <div id="chart"></div>
 
             <div class="insight">
                 <strong>The gap is getting tighter.</strong>
                 <p>
-                    In 2024-25, general government expenses reached
-                    $1,030.5 billion, exceeding revenue of $1,022.4 billion.
-                    The next question is whether this spending is unusually
-                    high relative to Australia's economy.
+                    Some important facts
                 </p>
             </div>
 
             <p class="source">
-                Source: Australian Bureau of Statistics, Government
-                Finance Statistics, Annual 2024-25. Values are in
-                current-price A$ billions. Expenses are displayed
-                as positive amounts.
+                Source: ABS, Government Finance Statistics, Annual 2024-25.
+                Values are in current-price A$ billions.
             </p>
         </section>
 
@@ -215,9 +209,9 @@
             description:
                 "Australian general government revenue and expenses, 2015-16 to 2024-25.",
 
-            width: "container",
-            height: 350,
-            background: "#FFFFFF",
+            width: 650,//"container",
+            height: 260, //350,
+            background: "transparent", //"#FFFFFF",
             padding: {
                 left: 8,
                 right: 16,
