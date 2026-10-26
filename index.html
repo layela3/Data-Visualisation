@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>HTML Doc</title>
-    </head>
-    <body>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Is Australia a Big Spender?</title>
 
     <!-- Vega and Vega-Lite -->
@@ -22,9 +16,10 @@
             --navy: #142B4A;
             --blue: #315E9E;
             --teal: #168A91;
-            --muted: #63748A;
-            --background: #FFFFFF;
-            --line: #E7ECF2;
+            --pale-teal: #E4F3F0;
+            --muted: #5E7185;
+            --white: #FFFFFF;
+            --border: #D0E5E1;
         }
 
         * {
@@ -33,126 +28,210 @@
 
         body {
             margin: 0;
-            background: var(--background);
+            background: var(--pale-teal);
             color: var(--navy);
             font-family: Arial, Helvetica, sans-serif;
-            line-height: 1.6;
+            line-height: 1.55;
         }
 
         .page {
-            max-width: 1100px;
+            width: min(1200px, 100%);
             margin: 0 auto;
-            padding: 64px 28px 48px;
+            padding: 30px 28px 32px;
+        }
+
+        header {
+            margin-bottom: 28px;
         }
 
         .eyebrow {
-            color: var(--blue);
-            font-size: 12px;
+            margin-bottom: 8px;
+            color: #247B79;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 2.5px;
-            text-align: center;
+            letter-spacing: 2px;
             text-transform: uppercase;
         }
 
         h1 {
-            max-width: 850px;
-            margin: 14px auto 18px;
+            margin: 0;
             font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(38px, 6vw, 66px);
-            font-weight: 700;
-            line-height: 1.12;
-            letter-spacing: -1.8px;
-            text-align: center;
+            font-size: clamp(36px, 5vw, 54px);
+            line-height: 1.1;
+            letter-spacing: -1.2px;
         }
 
         .intro {
-            max-width: 690px;
-            margin: 0 auto 48px;
-            color: var(--muted);
-            font-size: 17px;
-            text-align: center;
-        }
-
-        .chapter-label {
-            margin-bottom: 10px;
-            color: var(--blue);
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1.8px;
-            text-transform: uppercase;
-        }
-
-        h2 {
-            margin: 0 0 12px;
-            font-family: Georgia, "Times New Roman", serif;
-            font-size: clamp(26px, 4vw, 36px);
-            line-height: 1.25;
-        }
-
-        .chart-description {
             max-width: 720px;
-            margin: 0 0 24px;
+            margin: 12px 0 0;
             color: var(--muted);
             font-size: 15px;
         }
 
-        .chart-card {
-            padding: 24px 20px 16px;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            background: #FFFFFF;
+        .chapter-label {
+            margin-bottom: 7px;
+            color: #247B79;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.7px;
+            text-transform: uppercase;
+        }
+
+        .story-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.85fr);
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        .chart-card,
+        .story-card {
+            min-width: 0;
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--white);
+        }
+
+        .chart-heading {
+            margin: 0 0 5px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 23px;
+            line-height: 1.25;
+        }
+
+        .chart-subtitle {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: 13px;
         }
 
         #chart {
             width: 100%;
         }
 
-        .insight {
-            margin-top: 22px;
-            padding: 20px 22px;
-            border-left: 4px solid var(--teal);
-            background: #F4F8FA;
-            border-radius: 0 8px 8px 0;
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
         }
 
-        .insight strong {
-            display: block;
-            margin-bottom: 5px;
+        .controls label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        select,
+        button {
+            min-height: 34px;
+            padding: 6px 10px;
+            border: 1px solid #C8DAD9;
+            border-radius: 7px;
+            background: #FFFFFF;
             color: var(--navy);
+            font: inherit;
+            font-size: 12px;
         }
 
-        .insight p {
-            margin: 0;
-            color: #42566E;
-            font-size: 15px;
+        button {
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #EAF5F3;
+        }
+
+        .story-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .story-card h2 {
+            margin: 0 0 12px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+            line-height: 1.2;
+        }
+
+        .story-card p {
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .finding {
+            margin-top: 5px;
+            padding: 14px;
+            border-left: 3px solid var(--teal);
+            border-radius: 0 8px 8px 0;
+            background: #EFF8F6;
+        }
+
+        .finding-label {
+            margin-bottom: 5px;
+            color: #247B79;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .finding strong {
+            display: block;
+            font-size: 19px;
+            line-height: 1.35;
+        }
+
+        .finding p {
+            margin: 7px 0 0;
+            font-size: 12px;
+        }
+
+        .question {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid #E6EFED;
+            color: var(--navy);
+            font-size: 13px;
+            font-weight: 600;
         }
 
         .source {
-            margin-top: 18px;
+            margin: 14px 0 0;
             color: var(--muted);
-            font-size: 12px;
+            font-size: 11px;
+            line-height: 1.5;
         }
 
         footer {
-            margin-top: 64px;
-            padding-top: 20px;
-            border-top: 1px solid var(--line);
+            margin-top: 28px;
+            padding-top: 12px;
+            border-top: 1px solid #C8DEDA;
             color: var(--muted);
-            font-size: 12px;
-            text-align: center;
+            font-size: 11px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 760px) {
             .page {
-                padding: 40px 16px;
+                padding: 24px 16px;
             }
 
-            .intro {
-                margin-bottom: 36px;
+            .story-layout {
+                grid-template-columns: 1fr;
+                gap: 14px;
             }
 
-            .chart-card {
-                padding: 12px 6px;
+            .chart-card,
+            .story-card {
+                padding: 16px;
+            }
+
+            .story-card h2 {
+                font-size: 24px;
             }
         }
     </style>
@@ -167,47 +246,99 @@
             <h1>Is Australia a Big Spender?</h1>
 
             <p class="intro">
-                Governments around the world spend a substantial share
-                of what their economies produce. But where does Australia
-                sit, what are Australians paying for and how has its spending changed?
+                Governments spend billions delivering public services.
+                But how much does Australia spend, how has that changed,
+                and is it really a big spender?
             </p>
         </header>
 
         <section>
             <div class="chapter-label">
-                Are we actally spending that much
+                Chapter 1 · The big picture
             </div>
 
-            <p class="chart-description">
-                Government spending is measured in billions of Australian
-                dollars. Compare revenue with expenses over the past decade
-                to see how the relationship between the two has changed.
-            </p>
+            <div class="story-layout">
 
-            <div class="chart-card">
-                <div id="chart"></div>
+                <!-- LEFT: INTERACTIVE CHART -->
+                <div class="chart-card">
+                    <h2 class="chart-heading">
+                        Are we actually spending that much?
+                    </h2>
+
+                    <p class="chart-subtitle">
+                        Australian general government finances · A$ billions
+                    </p>
+
+                    <div id="chart"></div>
+
+                    <div class="controls">
+                        <label for="yearSelect">Focus on year</label>
+
+                        <select id="yearSelect">
+                            <option value="all">All years</option>
+                            <option value="2019-20">2019-20</option>
+                            <option value="2020-21">2020-21</option>
+                            <option value="2021-22">2021-22</option>
+                            <option value="2022-23">2022-23</option>
+                            <option value="2023-24">2023-24</option>
+                            <option value="2024-25">2024-25</option>
+                        </select>
+
+                        <button id="resetButton" type="button">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RIGHT: STORY AND INTERPRETATION -->
+                <aside class="story-card">
+                    <h2>A growing public bill</h2>
+
+                    <p>
+                        Government revenue comes from taxes and other
+                        sources. Expenses fund services, support payments
+                        and the day-to-day responsibilities of government.
+                    </p>
+
+                    <p>
+                        Comparing these two lines helps us see whether
+                        government expenses are rising faster than the
+                        money coming in.
+                    </p>
+
+                    <div class="finding">
+                        <div class="finding-label">
+                            The latest reported year
+                        </div>
+
+                        <strong>$1,030.5 billion in expenses</strong>
+
+                        <p>
+                            Revenue was $1,022.4 billion in 2024-25.
+                            Expenses exceeded revenue by approximately
+                            $8.1 billion.
+                        </p>
+                    </div>
+
+                    <div class="question">
+                        Explore the chart: hover over a point to inspect
+                        a value, click the legend to show or hide a line,
+                        or select a year to highlight it.
+                    </div>
+
+                    <p class="source">
+                        Source: ABS, Government Finance Statistics,
+                        Annual 2024-25. Current-price Australian dollars.
+                        Confirm the historical observations against the
+                        official downloaded table before publication.
+                    </p>
+                </aside>
+
             </div>
-
-            <div class="insight">
-                <strong>The gap is getting tighter.</strong>
-                <p>
-                    In 2024-25, general government expenses reached
-                    $1,030.5 billion, exceeding revenue of $1,022.4 billion.
-                    The next question is whether this spending is unusually
-                    high relative to Australia's economy.
-                </p>
-            </div>
-
-            <p class="source">
-                Source: Australian Bureau of Statistics, Government
-                Finance Statistics, Annual 2024-25. Values are in
-                current-price A$ billions. Expenses are displayed
-                as positive amounts.
-            </p>
         </section>
 
         <footer>
-            IS AUSTRALIA A BIG SPENDER? · A DATA STORY
+            IS AUSTRALIA A BIG SPENDER? &nbsp;·&nbsp; A DATA STORY
         </footer>
 
     </main>
@@ -216,125 +347,224 @@
         const spec = {
             $schema: "https://vega.github.io/schema/vega-lite/v6.json",
 
-            description:
-                "Australian general government revenue and expenses, 2015-16 to 2024-25.",
-
             width: "container",
-            height: 350,
+            height: 290,
             background: "#FFFFFF",
             padding: {
-                left: 8,
-                right: 16,
-                top: 16,
-                bottom: 8
+                left: 5,
+                right: 8,
+                top: 8,
+                bottom: 5
             },
 
             data: {
                 url: "data/government_finances.csv",
-                format: {
-                    type: "csv"
-                }
+                format: { type: "csv" }
             },
 
-            mark: {
-                type: "line",
-                strokeWidth: 3,
-                point: {
-                    filled: true,
-                    size: 65
+            params: [
+                {
+                    name: "selectedYear",
+                    value: "all",
+                    bind: {
+                        input: "select",
+                        options: [
+                            "all",
+                            "2019-20",
+                            "2020-21",
+                            "2021-22",
+                            "2022-23",
+                            "2023-24",
+                            "2024-25"
+                        ],
+                        labels: [
+                            "All years",
+                            "2019-20",
+                            "2020-21",
+                            "2021-22",
+                            "2022-23",
+                            "2023-24",
+                            "2024-25"
+                        ],
+                        name: "Focus year: "
+                    }
+                },
+                {
+                    name: "hoverPoint",
+                    select: {
+                        type: "point",
+                        fields: ["year", "measure"],
+                        on: "pointerover",
+                        clear: "pointerout"
+                    }
+                },
+                {
+                    name: "visibleMeasures",
+                    select: {
+                        type: "point",
+                        fields: ["measure"],
+                        bind: "legend"
+                    }
                 }
-            },
+            ],
 
-            encoding: {
-                x: {
-                    field: "year",
-                    type: "ordinal",
-                    sort: [
-                        "2015-16", "2016-17", "2017-18",
-                        "2018-19", "2019-20", "2020-21",
-                        "2021-22", "2022-23", "2023-24",
-                        "2024-25"
+            transform: [
+                {
+                    filter: "selectedYear === 'all' || datum.year === selectedYear"
+                }
+            ],
+
+            layer: [
+                {
+                    mark: {
+                        type: "line",
+                        strokeWidth: 3,
+                        point: {
+                            filled: true,
+                            size: 55
+                        }
+                    },
+                    encoding: {
+                        x: {
+                            field: "year",
+                            type: "ordinal",
+                            sort: [
+                                "2015-16", "2016-17", "2017-18",
+                                "2018-19", "2019-20", "2020-21",
+                                "2021-22", "2022-23", "2023-24",
+                                "2024-25"
+                            ],
+                            axis: {
+                                title: null,
+                                labelAngle: -40,
+                                labelColor: "#5E7185",
+                                labelFontSize: 10,
+                                labelLimit: 75,
+                                labelPadding: 7,
+                                tickSize: 0,
+                                domain: false
+                            }
+                        },
+
+                        y: {
+                            field: "value_billion",
+                            type: "quantitative",
+                            scale: { zero: false },
+                            axis: {
+                                title: "A$ billions",
+                                titleColor: "#142B4A",
+                                titleFontSize: 11,
+                                labelColor: "#5E7185",
+                                labelFontSize: 10,
+                                format: ",.0f",
+                                tickCount: 5,
+                                grid: true,
+                                gridColor: "#E7EFEE",
+                                gridDash: [3, 4],
+                                domain: false,
+                                tickSize: 0
+                            }
+                        },
+
+                        color: {
+                            field: "measure",
+                            type: "nominal",
+                            scale: {
+                                domain: ["Revenue", "Expenses"],
+                                range: ["#315E9E", "#168A91"]
+                            },
+                            legend: {
+                                title: null,
+                                orient: "top",
+                                direction: "horizontal",
+                                labelColor: "#142B4A",
+                                labelFontSize: 11,
+                                symbolType: "stroke",
+                                symbolStrokeWidth: 3,
+                                symbolSize: 140
+                            }
+                        },
+
+                        opacity: {
+                            condition: {
+                                param: "hoverPoint",
+                                value: 1,
+                                empty: false
+                            },
+                            value: 0.95
+                        },
+
+                        tooltip: [
+                            {
+                                field: "year",
+                                type: "ordinal",
+                                title: "Financial year"
+                            },
+                            {
+                                field: "measure",
+                                type: "nominal",
+                                title: "Measure"
+                            },
+                            {
+                                field: "value_billion",
+                                type: "quantitative",
+                                title: "A$ billions",
+                                format: ",.1f"
+                            }
+                        ]
+                    }
+                },
+                {
+                    transform: [
+                        { filter: "selectedYear !== 'all'" }
                     ],
-                    axis: {
-                        title: null,
-                        labelAngle: -35,
-                        labelColor: "#63748A",
-                        labelFontSize: 11,
-                        labelPadding: 10,
-                        tickSize: 0,
-                        domainColor: "#DCE4ED",
-                        grid: false
-                    }
-                },
-
-                y: {
-                    field: "value_billion",
-                    type: "quantitative",
-                    scale: {
-                        zero: true
+                    mark: {
+                        type: "point",
+                        filled: true,
+                        size: 130,
+                        stroke: "#FFFFFF",
+                        strokeWidth: 1.5
                     },
-                    axis: {
-                        title: "A$ billions",
-                        titleColor: "#142B4A",
-                        titleFontSize: 12,
-                        titlePadding: 14,
-                        labelColor: "#63748A",
-                        labelFontSize: 11,
-                        format: ",.0f",
-                        tickCount: 6,
-                        grid: true,
-                        gridColor: "#E9EEF4",
-                        gridDash: [3, 4],
-                        domain: false,
-                        tickSize: 0
+                    encoding: {
+                        x: {
+                            field: "year",
+                            type: "ordinal",
+                            sort: [
+                                "2015-16", "2016-17", "2017-18",
+                                "2018-19", "2019-20", "2020-21",
+                                "2021-22", "2022-23", "2023-24",
+                                "2024-25"
+                            ]
+                        },
+                        y: {
+                            field: "value_billion",
+                            type: "quantitative"
+                        },
+                        color: {
+                            field: "measure",
+                            type: "nominal",
+                            scale: {
+                                domain: ["Revenue", "Expenses"],
+                                range: ["#315E9E", "#168A91"]
+                            },
+                            legend: null
+                        },
+                        tooltip: [
+                            { field: "year", title: "Financial year" },
+                            { field: "measure", title: "Measure" },
+                            {
+                                field: "value_billion",
+                                title: "A$ billions",
+                                format: ",.1f"
+                            }
+                        ]
                     }
-                },
-
-                color: {
-                    field: "measure",
-                    type: "nominal",
-                    scale: {
-                        domain: ["Revenue", "Expenses"],
-                        range: ["#315E9E", "#168A91"]
-                    },
-                    legend: {
-                        title: null,
-                        orient: "top",
-                        direction: "horizontal",
-                        labelColor: "#142B4A",
-                        labelFontSize: 13,
-                        symbolType: "stroke",
-                        symbolStrokeWidth: 3,
-                        symbolSize: 180,
-                        padding: 8
-                    }
-                },
-
-                tooltip: [
-                    {
-                        field: "year",
-                        type: "ordinal",
-                        title: "Financial year"
-                    },
-                    {
-                        field: "measure",
-                        type: "nominal",
-                        title: "Measure"
-                    },
-                    {
-                        field: "value_billion",
-                        type: "quantitative",
-                        title: "A$ billions",
-                        format: ",.1f"
-                    }
-                ]
-            },
+                }
+            ],
 
             config: {
                 font: "Arial",
-                view: {
-                    stroke: null
-                },
+                view: { stroke: null },
                 axis: {
                     labelFont: "Arial",
                     titleFont: "Arial",
@@ -343,23 +573,31 @@
             }
         };
 
+        // The HTML selector controls the Vega-Lite year parameter.
+        // This keeps the external control and chart in sync.
+        const selector = document.getElementById("yearSelect");
+        const resetButton = document.getElementById("resetButton");
+
         vegaEmbed("#chart", spec, {
             actions: false,
             renderer: "svg"
+        }).then(result => {
+            selector.addEventListener("change", () => {
+                result.view.signal("selectedYear", selector.value).run();
+            });
+
+            resetButton.addEventListener("click", () => {
+                selector.value = "all";
+                result.view.signal("selectedYear", "all").run();
+            });
         }).catch(error => {
-            console.error("Chart could not be loaded:", error);
+            console.error("Chart loading error:", error);
+
             document.getElementById("chart").innerHTML =
-                "<p>Unable to load the chart. Check that the CSV file " +
-                "exists and that the page is running through a local server.</p>";
+                "<p>Chart could not load. Check that " +
+                "data/government_finances.csv exists and that you " +
+                "are running this page through a local server.</p>";
         });
     </script>
 </body>
-</html>
-        <h11>
-            <font size=10>
-                Is Australia a Big Spender?
-            </font>
-        </h11>
-        <p style="text-align: center;">Governments around the world spend roughly a third of everything their economies produce. Where does Australia sit and what does it spend money on?</p>
-    </body>...
 </html>
