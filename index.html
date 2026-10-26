@@ -172,7 +172,7 @@
 
         <section>
             <div class="chapter-label">
-                Are we actally spending that much?
+                Chapter 1: Is Australia actally spending that much?
             </div>
 
             <p class="chart-description">
@@ -182,19 +182,45 @@
             </p>
 
             <div id="chart"></div>
-
-            <div class="insight">
-                <strong>The gap is getting tighter.</strong>
-                <p>
-                    Some important facts
-                </p>
-            </div>
-
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
                 Values are in current-price A$ billions.
             </p>
+            <div class="insight">
+                <strong>The gap is getting tighter.</strong>
+                <p>
+                    Some important facts
+                    .
+                </p>
+            </div>
+
+            <h2>How does Australia compare?</h2>
+            <p class="chart-description">
+                Comparing Australia's spending measure with
+                international peers with a similar GDP helps put its government expenditure into context.
+            </p>
+            <div id="chart2"></div>
+            <p class="source">
+                Source: OECD Country Data Explorer.
+            </p>
+            <div class="insight">
+                <p>
+                    Some important facts about Aussie spending per capita
+                    .
+                </p>
+            </div>
+
+            <h2>Where is the money concentrated?</h2>
+            <p class="chart-description">
+                Total expenditure varies across state. 
+                Circle size represents the total amount spent, rather than spending per person.
+            </p>
+            <div id="chart3"></div>
+            <p class="source">
+                Source: ABS, Government Finance Statistics, Annual 2024-25.
+            </p>
         </section>
+        
 
         <footer>
             IS AUSTRALIA A BIG SPENDER? · A DATA STORY
@@ -342,6 +368,167 @@
                 "<p>Unable to load the chart. Check that the CSV file " +
                 "exists and that the page is running through a local server.</p>";
         });
+        </script>
+
+        <script>
+        const chart2Spec = {
+            $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+            width: 560,
+            height: 250,
+            background: "transparent",
+            data: {
+                url: "data/oecd_spending.csv",
+                format: { type: "csv" }
+            },
+            transform: [
+                { filter: "datum.year == 2024" },
+                {
+                    calculate: "trim(datum.country)",
+                    as: "country_clean"
+                },
+                {
+                    calculate: "toNumber(datum['spending_per_population'])",
+                    as: "spending"
+                }
+            ],
+            mark: {
+                type: "bar",
+                cornerRadiusEnd: 4,
+                height: { band: 0.68 }
+            },
+            encoding: {
+                y: {
+                    field: "country_clean",
+                    type: "nominal",
+                    sort: "-x",
+                    axis: {
+                        title: null,
+                        labelColor: "#142B4A",
+                        labelFontSize: 12,
+                        domain: false,
+                        ticks: false
+                    }
+                },
+                x: {
+                    field: "spending",
+                    type: "quantitative",
+                    axis: {
+                        title: "spending per capita",
+                        titleColor: "#142B4A",
+                        labelColor: "#63748A",
+                        gridColor: "#D0E5E1",
+                        domain: false,
+                        tickSize: 0
+                    }
+                },
+                color: {
+                    condition: {
+                        test: "datum.country_clean === 'Australia'",
+                        value: "#168A91"
+                    },
+                    value: "#315E9E"
+                },
+                tooltip: [
+                    { field: "country_clean", title: "Country" },
+                    { field: "year", title: "Year" },
+                    {
+                        field: "spending",
+                        title: "Reported value",
+                        format: ".5f"
+                    }
+                ]
+            },
+            config: {
+                font: "Arial",
+                view: { stroke: null }
+            }
+        };
+    vegaEmbed("#chart2", chart2Spec, {
+        actions: false,
+        renderer: "svg"
+    });
+    </script>
+
+    <script>
+    const chart3Spec = {
+        $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+        width: 600,
+        height: 390,
+        background: "transparent",
+        projection: { type: "mercator" },
+        layer: [
+            {
+                data: {
+                    url: "data/aus_states_simplified.geojson",
+                    format: { type: "json", property: "features" }
+                },
+                mark: {
+                    type: "geoshape",
+                    fill: "#CBE7E1",
+                    stroke: "#FFFFFF",
+                    strokeWidth: 1.2
+                }
+            },
+            {
+                data: {
+                    url: "data/state_totalspending.csv",
+                    format: { type: "csv" }
+                },
+                mark: {
+                    type: "circle",
+                    opacity: 0.82,
+                    stroke: "#FFFFFF",
+                    strokeWidth: 1.2
+                },
+                encoding: {
+                    longitude: {
+                        field: "longitude",
+                        type: "quantitative"
+                    },
+                    latitude: {
+                        field: "latitude",
+                        type: "quantitative"
+                    },
+                    size: {
+                        field: "expenses_billion",
+                        type: "quantitative",
+                        scale: { range: [100, 1800] },
+                        legend: {
+                            title: "Expenses (A$ billions)",
+                            titleColor: "#142B4A",
+                            labelColor: "#142B4A",
+                            orient: "bottom"
+                        }
+                    },
+                    color: {
+                        value: "#168A91"
+                    },
+                    tooltip: [
+                        {
+                            field: "jurisdiction",
+                            title: "State"
+                        },
+                        {
+                            field: "expenses_billion",
+                            type: "quantitative",
+                            title: "Expenses (A$ billions)",
+                            format: ",.2f"
+                        },
+                        { field: "year", title: "Year" }
+                    ]
+                }
+            }
+        ],
+        config: {
+            font: "Arial",
+            view: { stroke: null }
+        }
+    };
+
+    vegaEmbed("#chart3", chart3Spec, {
+        actions: false,
+        renderer: "svg"
+    });
     </script>
 </body>
 </html>
