@@ -219,6 +219,29 @@
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
             </p>
+
+            <div class="chapter-label">Chapter 2 · Where does the money go?</div>
+            <h2>How does each state use its money</h2>
+            <p class="chart-description">
+                Each cell shows the percentage of a jurisdiction's total
+                spending allocated to a particular function.
+            </p>
+            <div id="chart4"></div>
+            <p class="source">
+                Source: ABS, Government Finance Statistics, Annual 2024-25.
+            </p>
+
+            <h2>An average of 30% of total government expenditure goes t Health 
+                Australia has an aging population so there is high demand for aged care.
+            </h2>
+            <p class="chart-description">
+                Darker teal indicates a higher share of total jurisdictional
+                expenditure allocated to health. 
+            </p>
+            <div id="chart5"></div>
+            <p class="source">
+                Source: ABS, Government Finance Statistics, Annual 2024-25.
+            </p>
         </section>
         
 
@@ -363,9 +386,9 @@
             actions: false,
             renderer: "svg"
         }).catch(error => {
-            console.error("Chart could not be loaded:", error);
+            console.error("Chart 1 could not be loaded:", error);
             document.getElementById("chart").innerHTML =
-                "<p>Unable to load the chart. Check that the CSV file " +
+                "<p>Unable to load the chart 1. Check that the CSV file " +
                 "exists and that the page is running through a local server.</p>";
         });
         </script>
@@ -444,29 +467,39 @@
             }
         };
     vegaEmbed("#chart2", chart2Spec, {
-        actions: false,
-        renderer: "svg"
-    });
+            actions: false,
+            renderer: "svg"
+        }).catch(error => {
+            console.error("Chart 2 could not be loaded:", error);
+            document.getElementById("chart2").innerHTML =
+                "<p>Unable to load the chart 2. Check that the CSV file " +
+                "exists and that the page is running through a local server.</p>";
+        });
     </script>
 
     <script>
     const chart3Spec = {
         $schema: "https://vega.github.io/schema/vega-lite/v6.json",
-        width: 600,
-        height: 390,
+        width: 800,
+        height: 550,
         background: "transparent",
-        projection: { type: "mercator" },
+
+        projection: {
+            type: "mercator",
+            center: [134, -27],
+            scale: 750
+        },
         layer: [
             {
                 data: {
                     url: "data/aus_states_simplified.geojson",
-                    format: { type: "json", property: "features" }
+                    format: { type: "json" }
                 },
                 mark: {
                     type: "geoshape",
                     fill: "#CBE7E1",
-                    stroke: "#FFFFFF",
-                    strokeWidth: 1.2
+                    stroke: "#000000",
+                    strokeWidth: 2.2
                 }
             },
             {
@@ -477,8 +510,8 @@
                 mark: {
                     type: "circle",
                     opacity: 0.82,
-                    stroke: "#FFFFFF",
-                    strokeWidth: 1.2
+                    stroke: "#000000",
+                    strokeWidth: 0.7
                 },
                 encoding: {
                     longitude: {
@@ -492,7 +525,7 @@
                     size: {
                         field: "expenses_billion",
                         type: "quantitative",
-                        scale: { range: [100, 1800] },
+                        scale: { range: [120, 1800] },
                         legend: {
                             title: "Expenses (A$ billions)",
                             titleColor: "#142B4A",
@@ -526,8 +559,232 @@
     };
 
     vegaEmbed("#chart3", chart3Spec, {
-        actions: false,
-        renderer: "svg"
+            actions: false,
+            renderer: "svg"
+        }).catch(error => {
+            console.error("Chart 3 could not be loaded:", error);
+            document.getElementById("chart3").innerHTML =
+                "<p>Unable to load the chart 3. Check that the CSV file " +
+                "exists and that the page is running through a local server.</p>";
+        });
+    </script>
+
+    <script>
+    const chart4Spec = {
+        $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+        width: 570,
+        height: 330,
+        background: "transparent",
+        data: {
+            url: "data/state_spending_breakdown.csv",
+            format: { type: "csv" }
+        },
+        transform: [
+            {
+                calculate: "trim(datum.jurisdiction)",
+                as: "state"
+            },
+            {
+                calculate: "trim(datum.spending_categories)",
+                as: "category"
+            },
+            {
+                calculate: "toNumber(datum.percentage_oftotal_spending)",
+                as: "share"
+            }
+        ],
+        mark: {
+            type: "rect",
+            cornerRadius: 2,
+            stroke: "#E4F3F0",
+            strokeWidth: 2
+        },
+        encoding: {
+            x: {
+                field: "category",
+                type: "nominal",
+                sort: [
+                    "General Public services",
+                    "Public order and safety",
+                    "Economic affairs",
+                    "Environmental protection",
+                    "Housing and community amenities",
+                    "Health",
+                    "Recreation",
+                    "Education",
+                    "Social protection",
+                    "Transport"
+                ],
+                axis: {
+                    title: null,
+                    labelAngle: -55,
+                    labelLimit: 120,
+                    labelFontSize: 10,
+                    labelColor: "#142B4A",
+                    domain: false,
+                    ticks: false
+                }
+            },
+            y: {
+                field: "state",
+                type: "nominal",
+                sort: [
+                    "New South Wales",
+                    "Victoria",
+                    "Queensland",
+                    "Western Australia",
+                    "South Australia",
+                    "Tasmania",
+                    "Northern Territory",
+                    "Australian Capital Territory"
+                ],
+                axis: {
+                    title: null,
+                    labelFontSize: 10,
+                    labelColor: "#142B4A",
+                    labelLimit: 155,
+                    domain: false,
+                    ticks: false
+                }
+            },
+            color: {
+                field: "share",
+                type: "quantitative",
+                scale: {
+                    scheme: "tealblues"
+                },
+                legend: {
+                    title: "% of state spending",
+                    titleColor: "#142B4A",
+                    labelColor: "#142B4A"
+                }
+            },
+            tooltip: [
+                { field: "state", title: "Jurisdiction" },
+                { field: "category", title: "Spending category" },
+                {
+                    field: "share",
+                    title: "Share (%)",
+                    format: ".2f"
+                }
+            ]
+        },
+        config: {
+            font: "Arial",
+            view: { stroke: null }
+        }
+    };
+
+    vegaEmbed("#chart4", chart4Spec, {
+            actions: false,
+            renderer: "svg"
+        }).catch(error => {
+            console.error("Chart 4 could not be loaded:", error);
+            document.getElementById("chart4").innerHTML =
+                "<p>Unable to load the chart 4. Check that the CSV file " +
+                "exists and that the page is running through a local server.</p>";
+        });
+    </script>
+
+    
+    
+    <script>
+    const chart5Spec = {
+    $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+
+    width: 800,
+    height: 550,
+    autosize: { type: "fit", contains: "padding" },
+    background: "transparent",
+
+    projection: {
+        type: "mercator",
+        center: [134, -27],
+        scale: 750
+    },
+
+    data: {
+        url: "data/aus_states_named.geojson",
+        format: {
+        type: "json",
+        property: "features"
+        }
+    },
+
+    transform: [
+        {
+        lookup: "properties.jurisdiction",
+        from: {
+            data: {
+            url: "data/state_health_share.csv",
+            format: { type: "csv" }
+            },
+            key: "jurisdiction",
+            fields: ["health_spending"]
+        },
+        as: ["health_spending"]
+        },
+        {
+        calculate: "toNumber(datum.health_spending)",
+        as: "health_value"
+        }
+    ],
+
+    mark: {
+        type: "geoshape",
+        fill: "#168A91",
+        stroke: "#000000",
+        strokeWidth: 1
+    },
+
+    encoding: {
+        color: {
+        condition: {
+            test: "isValid(datum.health_value)",
+            field: "health_value",
+            type: "quantitative",
+            scale: {
+            domain: [0, 40000],
+            range: ["#D9EFEB", "#168A91"],
+            clamp: true
+            },
+            legend: {
+            title: "Health spending (A$ million)",
+            titleColor: "#142B4A",
+            labelColor: "#142B4A"
+            }
+        },
+        value: "#D9EFEB"
+        },
+
+        tooltip: [
+        {
+            field: "properties.jurisdiction",
+            type: "nominal",
+            title: "Jurisdiction"
+        },
+        {
+            field: "health_spending",
+            type: "quantitative",
+            title: "Health spending",
+            format: ",.0f"
+        }
+        ]
+    },
+
+    config: {
+        font: "Arial",
+        view: { stroke: null }
+    }
+    };
+
+    vegaEmbed("#chart5", chart5Spec, {
+    actions: false,
+    renderer: "svg"
+    }).catch(error => {
+    console.error("Chart 5 could not be loaded:", error);
+    document.getElementById("chart5").innerHTML =
+        "<p>Chart 5 failed to load. Check the browser console.</p>";
     });
     </script>
 </body>
