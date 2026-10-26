@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>HTML Doc</title>
+    </head>
+    <body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Is Australia a Big Spender?</title>
+
+    <!-- Vega and Vega-Lite -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+
+    <style>
+        :root {
+            --navy: #142B4A;
+            --blue: #315E9E;
+            --teal: #168A91;
+            --muted: #63748A;
+            --background: #FFFFFF;
+            --line: #E7ECF2;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--navy);
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 64px 28px 48px;
+        }
+
+        .eyebrow {
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            max-width: 850px;
+            margin: 14px auto 18px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(38px, 6vw, 66px);
+            font-weight: 700;
+            line-height: 1.12;
+            letter-spacing: -1.8px;
+            text-align: center;
+        }
+
+        .intro {
+            max-width: 690px;
+            margin: 0 auto 48px;
+            color: var(--muted);
+            font-size: 17px;
+            text-align: center;
+        }
+
+        .chapter-label {
+            margin-bottom: 10px;
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin: 0 0 12px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(26px, 4vw, 36px);
+            line-height: 1.25;
+        }
+
+        .chart-description {
+            max-width: 720px;
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        .chart-card {
+            padding: 24px 20px 16px;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            background: #FFFFFF;
+        }
+
+        #chart {
+            width: 100%;
+        }
+
+        .insight {
+            margin-top: 22px;
+            padding: 20px 22px;
+            border-left: 4px solid var(--teal);
+            background: #F4F8FA;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .insight strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--navy);
+        }
+
+        .insight p {
+            margin: 0;
+            color: #42566E;
+            font-size: 15px;
+        }
+
+        .source {
+            margin-top: 18px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        footer {
+            margin-top: 64px;
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 40px 16px;
+            }
+
+            .intro {
+                margin-bottom: 36px;
+            }
+
+            .chart-card {
+                padding: 12px 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+
+        <header>
+            <div class="eyebrow">Following the money · Australia</div>
+
+            <h1>Is Australia a Big Spender?</h1>
+
+            <p class="intro">
+                Governments around the world spend a substantial share
+                of what their economies produce. But where does Australia
+                sit, what are Australians paying for and how has its spending changed?
+            </p>
+        </header>
+
+        <section>
+            <div class="chapter-label">
+                Are we actally spending that much
+            </div>
+
+            <p class="chart-description">
+                Government spending is measured in billions of Australian
+                dollars. Compare revenue with expenses over the past decade
+                to see how the relationship between the two has changed.
+            </p>
+
+            <div class="chart-card">
+                <div id="chart"></div>
+            </div>
+
+            <div class="insight">
+                <strong>The gap is getting tighter.</strong>
+                <p>
+                    In 2024-25, general government expenses reached
+                    $1,030.5 billion, exceeding revenue of $1,022.4 billion.
+                    The next question is whether this spending is unusually
+                    high relative to Australia's economy.
+                </p>
+            </div>
+
+            <p class="source">
+                Source: Australian Bureau of Statistics, Government
+                Finance Statistics, Annual 2024-25. Values are in
+                current-price A$ billions. Expenses are displayed
+                as positive amounts.
+            </p>
+        </section>
+
+        <footer>
+            IS AUSTRALIA A BIG SPENDER? · A DATA STORY
+        </footer>
+
+    </main>
+
+    <script>
+        const spec = {
+            $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+
+            description:
+                "Australian general government revenue and expenses, 2015-16 to 2024-25.",
+
+            width: "container",
+            height: 350,
+            background: "#FFFFFF",
+            padding: {
+                left: 8,
+                right: 16,
+                top: 16,
+                bottom: 8
+            },
+
+            data: {
+                url: "data/government_finances.csv",
+                format: {
+                    type: "csv"
+                }
+            },
+
+            mark: {
+                type: "line",
+                strokeWidth: 3,
+                point: {
+                    filled: true,
+                    size: 65
+                }
+            },
+
+            encoding: {
+                x: {
+                    field: "year",
+                    type: "ordinal",
+                    sort: [
+                        "2015-16", "2016-17", "2017-18",
+                        "2018-19", "2019-20", "2020-21",
+                        "2021-22", "2022-23", "2023-24",
+                        "2024-25"
+                    ],
+                    axis: {
+                        title: null,
+                        labelAngle: -35,
+                        labelColor: "#63748A",
+                        labelFontSize: 11,
+                        labelPadding: 10,
+                        tickSize: 0,
+                        domainColor: "#DCE4ED",
+                        grid: false
+                    }
+                },
+
+                y: {
+                    field: "value_billion",
+                    type: "quantitative",
+                    scale: {
+                        zero: true
+                    },
+                    axis: {
+                        title: "A$ billions",
+                        titleColor: "#142B4A",
+                        titleFontSize: 12,
+                        titlePadding: 14,
+                        labelColor: "#63748A",
+                        labelFontSize: 11,
+                        format: ",.0f",
+                        tickCount: 6,
+                        grid: true,
+                        gridColor: "#E9EEF4",
+                        gridDash: [3, 4],
+                        domain: false,
+                        tickSize: 0
+                    }
+                },
+
+                color: {
+                    field: "measure",
+                    type: "nominal",
+                    scale: {
+                        domain: ["Revenue", "Expenses"],
+                        range: ["#315E9E", "#168A91"]
+                    },
+                    legend: {
+                        title: null,
+                        orient: "top",
+                        direction: "horizontal",
+                        labelColor: "#142B4A",
+                        labelFontSize: 13,
+                        symbolType: "stroke",
+                        symbolStrokeWidth: 3,
+                        symbolSize: 180,
+                        padding: 8
+                    }
+                },
+
+                tooltip: [
+                    {
+                        field: "year",
+                        type: "ordinal",
+                        title: "Financial year"
+                    },
+                    {
+                        field: "measure",
+                        type: "nominal",
+                        title: "Measure"
+                    },
+                    {
+                        field: "value_billion",
+                        type: "quantitative",
+                        title: "A$ billions",
+                        format: ",.1f"
+                    }
+                ]
+            },
+
+            config: {
+                font: "Arial",
+                view: {
+                    stroke: null
+                },
+                axis: {
+                    labelFont: "Arial",
+                    titleFont: "Arial",
+                    titleFontWeight: 600
+                }
+            }
+        };
+
+        vegaEmbed("#chart", spec, {
+            actions: false,
+            renderer: "svg"
+        }).catch(error => {
+            console.error("Chart could not be loaded:", error);
+            document.getElementById("chart").innerHTML =
+                "<p>Unable to load the chart. Check that the CSV file " +
+                "exists and that the page is running through a local server.</p>";
+        });
+    </script>
+</body>
+</html>
+        <h11>
+            <font size=10>
+                Is Australia a Big Spender?
+            </font>
+        </h11>
+        <p style="text-align: center;">Governments around the world spend roughly a third of everything their economies produce. Where does Australia sit and what does it spend money on?</p>
+    </body>...
+</html>
