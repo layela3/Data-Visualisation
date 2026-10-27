@@ -1,0 +1,107 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "World map of government health expenditure per person in 2023.",
+  "width": "container",
+  "height": 400,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "padding": 5,
+  "projection": {
+    "type": "equalEarth"
+  },
+  "data": {
+    "url": "data/world_countries.json",
+    "format": {
+      "type": "topojson",
+      "feature": "countries"
+    }
+  },
+  "transform": [
+    {
+      "lookup": "id",
+      "from": {
+        "data": {
+          "url": "data/world_health_spending.csv",
+          "format": {
+            "type": "csv"
+          }
+        },
+        "key": "numeric",
+        "fields": ["country_name", "alpha4", "2023"]
+      }
+    },
+    {
+      "calculate": "toNumber(datum['2023'])",
+      "as": "health_spending"
+    },
+    {
+      "calculate": "datum.properties.name",
+      "as": "map_country"
+    }
+  ],
+  "mark": {
+    "type": "geoshape",
+    "stroke": "#000000",
+    "strokeWidth": 0.2,
+    "invalid": null
+  },
+  "encoding": {
+    "color": {
+      "field": "health_spending",
+      "type": "quantitative",
+      "scale": {
+        "type": "sqrt",
+        "range": ["#F0FAF8", "#CDE9E5", "#94D3CE", "#55B5B3", "#268B9A", "#174A73"],
+        "clamp": true,
+        "zero": true
+      },
+      "legend": {
+        "title": "Health spending/person (US$)",
+        "orient": "right",
+        "direction": "vertical",
+        "gradientLength": 280,
+        "gradientThickness": 20,
+        "tickCount": 7,
+        "format": "$,.0f",
+        "titleColor": "#142B4A",
+        "labelColor": "#63748A",
+        "titleFontSize": 12,
+        "labelFontSize": 10,
+        "labelOverlap": false,
+        "titleLimit": 180,
+        "labelLimit": 100
+      },
+      "condition": {
+        "test": "!isValid(datum.health_spending)",
+        "value": "#E3E9ED"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "map_country",
+        "type": "nominal",
+        "title": "Country"
+      },
+      {
+        "field": "health_spending",
+        "type": "quantitative",
+        "title": "Health spending per person (US$)",
+        "format": "$,.2f"
+      },
+      {
+        "field": "alpha4",
+        "type": "nominal",
+        "title": "Country code"
+      }
+    ]
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

@@ -33,12 +33,16 @@
             color: var(--navy);
             font-family: Arial, Helvetica, sans-serif;
             line-height: 1.6;
+            text-align: center;
         }
 
         .page {
             max-width: 1100px;
             margin: 0 auto;
-            padding: 64px 28px 48px;
+            text-align: center;
+        }
+        .page p{
+            text-align: center
         }
 
         .eyebrow {
@@ -76,6 +80,7 @@
             font-weight: 700;
             letter-spacing: 1.8px;
             text-transform: uppercase;
+            text-align: center
         }
 
         h2 {
@@ -83,6 +88,7 @@
             font-family: Georgia, "Times New Roman", serif;
             font-size: clamp(26px, 4vw, 36px);
             line-height: 1.25;
+            text-align: center;
         }
 
         .chart-description {
@@ -90,6 +96,7 @@
             margin: 0 0 24px;
             color: var(--muted);
             font-size: 15px;
+            text-align: center;
         }
 
         .chart-card {
@@ -97,11 +104,13 @@
             border: none;
             border-radius: 0;
             background: transparent;
+            text-align: center;
         }
 
         #chart {
             width: 100%;
             margin: 0;
+            text-align: center;
         }
 
         .insight {
@@ -110,24 +119,28 @@
             border: none;
             background: transparent;
             border-radius: 0;
+            text-align: center;
         }
 
         .insight strong {
             display: block;
             margin-bottom: 4px;
             color: #142B4A;
+            text-align: center;
         }
 
         .insight p {
             margin: 0;
             color: #42566E;
             font-size: 14px;
+            text-align: center;
         }
 
         .source {
             margin-top: 18px;
             color: var(--muted);
             font-size: 12px;
+            text-align: center;
         }
 
         footer {
@@ -142,14 +155,17 @@
         @media (max-width: 600px) {
             .page {
                 padding: 40px 16px;
+                text-align: center;
             }
 
             .intro {
                 margin-bottom: 36px;
+                text-align: center;
             }
 
             .chart-card {
                 padding: 12px 6px;
+                text-align: center;
             }
         }
     </style>
@@ -163,11 +179,9 @@
 
             <h1>Is Australia a Big Spender?</h1>
 
-            <p class="intro">
-                Governments around the world spend a substantial share
-                of what their economies produce. But where does Australia
-                sit, what are Australians paying for and how has its spending changed?
-            </p>
+            <p class="intro"> Trillions of dollars flow through Australia's public finances over time. 
+                That money keeps hospitals running, funds schools, supports people through retirement and helps build the infrastructure we rely on. 
+                But how big is Australia's spending bill, who gets the biggest share, and what happens when the country's priorities collide with its budget? Follow the money to find out. </p>
         </header>
 
         <section>
@@ -176,45 +190,52 @@
             </div>
 
             <p class="chart-description">
-                Government spending is measured in billions of Australian
-                dollars. Compare revenue with expenses over the past decade
-                to see how the relationship between the two has changed.
+                Government revenue and expenses tell two sides of the same story: what governments bring in, and what it costs to deliver services.
             </p>
-
+            <h3 class="chart-title">Australia's Government Revenue vs Expenses</h3>
             <div id="chart"></div>
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
-                Values are in current-price A$ billions.
             </p>
             <div class="insight">
                 <strong>The gap is getting tighter.</strong>
                 <p>
-                    Some important facts
-                    .
+                    The dramatic part of this story came in 2020-21.
+                    The government had to respond to the pandemic, from economic support to business subsidies.
+                    Was the pandemic an extraordinary spending sock, or did it permanently change the scale of government spending.
+                    In 2023-24, governments funded about 69.6% of the total health expenditure with the rest coming from individuals and private health insurers.
                 </p>
             </div>
 
             <h2>How does Australia compare?</h2>
             <p class="chart-description">
-                Comparing Australia's spending measure with
-                international peers with a similar GDP helps put its government expenditure into context.
+                A billion dollars means something different in a country of five million people than in one of thirty million. 
+                Comparing Australia's spending with international peers helps separate the size of the country from the scale of government
             </p>
+            <h3 class="chart-title">How Australia's Spending compares Internationally</h3>
+            
             <div id="chart2"></div>
             <p class="source">
                 Source: OECD Country Data Explorer.
             </p>
             <div class="insight">
                 <p>
-                    Some important facts about Aussie spending per capita
-                    .
+                    HERE'S THE CATCH!!
+                </p>
+                <p>
+                    With international rankings: a country can spend more in total simply because it has more people, 
+                    while a smaller country can spend more per person. 
+                    These are two different ways of measuring the same public sector and they can produce very different rankings. 
+                    So before declaring Australia a big spender, ask what the chart is actually measuring.
                 </p>
             </div>
 
             <h2>Where is the money concentrated?</h2>
             <p class="chart-description">
-                Total expenditure varies across state. 
-                Circle size represents the total amount spent, rather than spending per person.
+                Australia's states and territories have very different populations, economies and service needs.
+                That distinction matters...
             </p>
+            <h3 class="chart-title">Govt expenditure across States & Territories</h3>
             <div id="chart3"></div>
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
@@ -223,12 +244,15 @@
             <div class="chapter-label">Chapter 2 · Where does the money go?</div>
             <h2>How does each state use its money</h2>
             <p class="chart-description">
-                Each cell shows the percentage of a jurisdiction's total
-                spending allocated to a particular function.
+                Every government has to divide its budget between competing priorities.
             </p>
+            <h3 class="chart-title">Where each State spends its money</h3>
             <div id="chart4"></div>
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
+            </p>
+            <p class="chart-description">
+                Looking beyond the biggest blocks, Australia also cares about people having basic functional public services, e.g. public libraries and accessible parks. 
             </p>
 
             <div class="chapter-label">Chapter 3 · Spending Breakdown</div>
@@ -236,41 +260,41 @@
             <h2>Health is a major spending commitment</h2>
 
             <p class="chart-description">
-                Australia has a large population that is aging so there is high demand for aged care health resources.
+                Roughly 4.6 million Australians are 65+ years old, this is projected to continue growing rapidly.
+                The government provides heavily subsidised resources and care for older people. 
             </p>
-
+            <h3 class="chart-title">The Scale fo Australia's Health Spending</h3>
             <div id="chart5"></div>
 
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
             </p>
 
-            <div class="insight">
-                <p>
-                    Australia facts
-                </p>
-            </div>
-            <h2>Where are Australia's hospitals?</h2>
+            <h2>Do more hospitals mean more money?</h2>
             <div class="insight">
                 <strong>Hospital infrastructure is geographically uneven.</strong>
                 <p>
-                    Mapping shows that they 
+                    Australia's population is concentrated along the coast and around major cities, while enormous inland regions have far fewer people spread across much larger distances.
+                    A nearby hospital and an accessible hospital are not always the same thing.
                 </p>
             </div>
+            <h3 class="chart-title">A Geographic Overview: Australia's hospitals</h3>
             <div id="chart6"></div>
 
             <p class="source">
-                Source: Public data au
+                Source: Public data Au
             </p>
              <p class="chart-description">
                 Each dot represents a hospital location across Australia.
             </p>
             <div class="insight">
-                <strong>Tasmania has a very large aging population.</strong>
+                <strong>Tasmania faces a different kind of health challenge.</strong>
                 <p>
-                    At
+                    Tasmania has Australia's oldest population by median age among the states, increasing the importance of aged care, chronic disease management and services that help people remain independent. 
+                    Can a smaller population really cost more to care for?
                 </p>
             </div>
+            <h3 class="chart-title">Health Spending across Australias</h3>
             <div id="chart7"></div>
 
             <p class="source">
@@ -281,33 +305,40 @@
                 <strong>
                     The Northern Territory has the highest per-person spending.
                 </strong>
+                <p>
+                    With a very sparse population, it costs a lot to deliver medical care in the Northern Territory. 
+                    Health costs are forced to include transport to reach the various patients.
+                </p>
             </p>
             
             <h2>Where does all the health spending go?</h2>
             <p class="chart-description">
                 Health spending covers a range of services, from hospitals and
                 outpatient care to community and public health services.
+                Some costs are highly visible, such as hospital buildings and emergency departments. 
+                Others are less obvious such as subsidised medicines, patient transport and preventive programs that aim to stop illness before it becomes a crisis.
             </p>
+            <h3 class="chart-title">Where Australia's Health Budget Goes</h3>
             <div id="chart8"></div>
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
             </p>
 
             <div class="insight">
-                <strong>Community and outpatient services account for substantial spending.</strong>
+                <strong>The pandemic spending surge has not simply vanished.</strong>
                 <p>
-                    Some facts after covid changes
+                    During COVID-19, governments spent heavily on emergency responses, testing, vaccines and other public health measures.
+                    As those extraordinary programs wound down, the underlying demand for hospitals, medical appointments and community care remained.
+                    The emergency changed, but the long-term pressure on the health system did not disappear.
                 </p>
             </div>
 
             <h2>How has spending changed over a decade?</h2>
             <p class="chart-description">
-                Health remains Australia's largest spending category. Looking beyond
-                health, this connected dot plot compares government spending across
-                other functions in 2015 and 2025. Each line connects the two years,
-                revealing how spending has changed over the decade.
+                A decade of budgets captures more than inflation or population growth. 
+                It includes the pandemic, changing social needs and decisions about which services deserve more resources.
             </p>
-
+            <h3 class="chart-title">Govt Spending changes since 2015</h3>
             <div id="chart9"></div>
 
             <p class="source">
@@ -316,15 +347,34 @@
             <div class="chapter-label"><strong>Chapter 4 · Big spender, or just a big country? </strong></div>
             <h3>How has Australia's ranking changed?</h3>
             <p class="chart-description">
-                Australia's position relative to six other countries with a similar gdp has shifted
-                over time.
+                COVID-19 scrambled government budgets around the world. 
+                Countries funded emergency health responses, income support and business assistance, but the timing and scale of those programs varied.
+                Much like other countries, Australia put money into diagnostics, public hospitals, telelhealth & the vaccination program.
             </p>
+            <h3 class="chart-title">Australia's Govt expenditure ranked over time</h3>
             <div id="chart10"></div>
             <p class="source">
                 Source: OECD spending comparison dataset, 2014-2024.
             </p>
-        </section>
-        
+            <h2>How does Australia's health spending compare globally?</h2>
+            <p class="chart-description">
+                Government health spending per person varies considerably around the world. 
+                The map below reveals broad differences in the public resources devoted to health, but it is not a simple league table of healthcare quality.
+                The way a country organises their healthcare system affects the numbers drastically.
+            </p>
+            <h3 class="chart-title">Government Health Spending Around the World</h3>
+            <div id="chart11"></div>
+
+            <p class="source">
+                Source: World Bank, World Development Indicators
+            </p>
+            <p><strong>Does spending more always mean getting better care?</strong></p>
+            <p>
+                According to comprehensive global rankings by The Commonwealth Fund (which tracks the healthcare performance of high-income nations), 
+                Australia's healthcare system consistently places in the top 3 overall globally.
+                While the United States spends a staggering 16.5% of its GDP on healthcare to rank last among peer nations, Australia spends only about 10.5% of its GDP to achieve significantly higher life expectancy, lower infant mortality, and superior disease recovery rates.
+            </p>
+        </section>       
 
         <footer>
             IS AUSTRALIA A BIG SPENDER? · A DATA STORY
@@ -1420,7 +1470,7 @@
             'Check the CSV path and browser console.</p>';
     });
     </script>
-    <div id="chart9"></div>
+
 
     <script>
     const chart9Spec = {
@@ -1569,14 +1619,14 @@
                 "description": "Dots mark the spending value for each year. The two legends are interactive.",
                 "params": [
                     {
-                        "name": "yearPick",
-                        "select": {
-                            "type": "point",
-                            "fields": [
-                                "year"
-                            ]
-                        },
-                        "bind": "legend"
+                        name: "yearPick",
+                        select: { type: "point", fields: ["year"], toggle: "true" },
+                        bind: "legend"
+                    },
+                    {
+                        name: "categoryPick",
+                        select: { type: "point", fields: ["category_clean"], toggle: "true" },
+                        bind: "legend"
                     },
                     {
                         "name": "categoryPick",
@@ -1716,7 +1766,7 @@
     </script>
 
 
-    <<script>
+    <script>
     const chart10Spec = {
         $schema: "https://vega.github.io/schema/vega-lite/v6.json",
 
@@ -1786,7 +1836,7 @@
                             grid: false
                         },
                         scale: {
-                            domain: [2013, 2024]
+                            domain: [2013, 2025]
                         }
                     },
 
@@ -1800,7 +1850,7 @@
                         axis: {
                             title: null,
                             values: [1, 2, 3, 4, 5, 6, 7],
-                            labelExpr: "['Switzerland  ', 'France', 'Netherlands', 'Australia', 'Italy', 'Spain', 'Poland'][datum.value - 1]",
+                            //labelExpr: "['Switzerland  ', 'France', 'Netherlands', 'Australia', 'Italy', 'Spain', 'Poland'][datum.value - 1]",
                             labelColor: "#142B4A",
                             labelFontSize: 11,
                             labelLimit: 130,
@@ -1808,7 +1858,8 @@
                             tickSize: 0,
                             grid: true,
                             gridColor: "#E9EEF4",
-                            gridDash: [3, 4]
+                            gridDash: [3, 4],
+                            "format": "d"
                         }
                     },
 
@@ -1866,13 +1917,9 @@
                         field: "year_num",
                         type: "quantitative",
                         scale: {
-                            domain: [2014, 2024]
+                            domain: [2013, 2025]
                         },
-                        axis: {
-                            title: null,
-                            values: [2014, 2016, 2018, 2020, 2022, 2024],
-                            format: "d"
-                        }
+                        
                     },
 
                     y: {
@@ -1882,18 +1929,13 @@
                             domain: [7, 1],
                             nice: false
                         },
-                        axis: {
-                            title: "Ranking",
-                            values: [1, 2, 3, 4, 5, 6, 7]
-                        }
-                    },
-
-                    color: {
+                        color: {
                         condition: {
                             test: "datum.Country === 'Australia'",
                             value: "#168A91"
                         },
                         value: "#315E9E"
+                    }
                     },
 
                     tooltip: [
@@ -1915,6 +1957,120 @@
                             format: "d"
                         }
                     ]
+                }
+            },
+            {
+                "description": "Country name at the left end of each line (2014 ranking)",
+                "transform": [
+                    {
+                        "filter": "datum.year_num === 2014"
+                    }
+                ],
+                "mark": {
+                    "type": "text",
+                    "align": "right",
+                    "baseline": "middle",
+                    "dx": -12,
+                    "font": "Arial",
+                    "fontSize": 11
+                },
+                "encoding": {
+                    "x": {
+                        "field": "year_num",
+                        "type": "quantitative",
+                        "scale": {
+                            "domain": [
+                                2012,
+                                2026
+                            ]
+                        }
+                    },
+                    "y": {
+                        "field": "rank_num",
+                        "type": "quantitative",
+                        "scale": {
+                            "domain": [
+                                7,
+                                1
+                            ],
+                            "nice": false
+                        }
+                    },
+                    "text": {
+                        "field": "Country",
+                        "type": "nominal"
+                    },
+                    "color": {
+                        "condition": {
+                            "test": "datum.Country === 'Australia'",
+                            "value": "#168A91"
+                        },
+                        "value": "#315E9E"
+                    },
+                    "fontWeight": {
+                        "condition": {
+                            "test": "datum.Country === 'Australia'",
+                            "value": 700
+                        },
+                        "value": 400
+                    }
+                }
+            },
+            {
+                "description": "Country name at the right end of each line (2024 ranking)",
+                "transform": [
+                    {
+                        "filter": "datum.year_num === 2024"
+                    }
+                ],
+                "mark": {
+                    "type": "text",
+                    "align": "left",
+                    "baseline": "middle",
+                    "dx": 12,
+                    "font": "Arial",
+                    "fontSize": 11
+                },
+                "encoding": {
+                    "x": {
+                        "field": "year_num",
+                        "type": "quantitative",
+                        "scale": {
+                            "domain": [
+                                2012,
+                                2026
+                            ]
+                        }
+                    },
+                    "y": {
+                        "field": "rank_num",
+                        "type": "quantitative",
+                        "scale": {
+                            "domain": [
+                                7,
+                                1
+                            ],
+                            "nice": false
+                        }
+                    },
+                    "text": {
+                        "field": "Country",
+                        "type": "nominal"
+                    },
+                    "color": {
+                        "condition": {
+                            "test": "datum.Country === 'Australia'",
+                            "value": "#168A91"
+                        },
+                        "value": "#315E9E"
+                    },
+                    "fontWeight": {
+                        "condition": {
+                            "test": "datum.Country === 'Australia'",
+                            "value": 700
+                        },
+                        "value": 400
+                    }
                 }
             }
         ],
@@ -1946,6 +2102,147 @@
         document.getElementById("chart10").innerHTML =
             '<p style="color:#142B4A;">Unable to load Chart 10. ' +
             'Check the CSV file path and browser console.</p>';
+    });
+    </script>
+
+    
+    <script>
+    const chart11Spec = {
+        $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+
+        description:
+            "World map of government health expenditure per person in 2023.",
+
+        width: 700,
+        height: 400,
+        background: "transparent",
+        padding: 5,
+
+        projection: {
+            type: "equalEarth"
+        },
+
+        data: {
+            url: "data/world_countries.json",
+            format: {
+                type: "topojson",
+                feature: "countries"
+            }
+        },
+
+        transform: [
+            {
+                // Match the map's numeric country ID to the CSV.
+                lookup: "id",
+                from: {
+                    data: {
+                        url: "data/world_health_spending.csv",
+                        format: { type: "csv" }
+                    },
+                    key: "numeric",
+                    fields: [
+                        "country_name",
+                        "alpha4",
+                        "2023"
+                    ]
+                }
+            },
+            {
+                calculate: "toNumber(datum['2023'])",
+                as: "health_spending"
+            },
+            {
+                calculate: "datum.properties.name",
+                as: "map_country"
+            }
+        ],
+
+        mark: {
+            type: "geoshape",
+            stroke: "#000000",
+            strokeWidth: 0.2,
+            invalid: null
+        },
+
+        encoding: {
+            color: {
+                condition: {
+                    test: "!isValid(datum.health_spending)",
+                    value: "#E3E9ED"
+                },
+                field: "health_spending",
+                type: "quantitative",
+
+                scale: {
+                    type: "sqrt",
+                    range: [
+                        "#F0FAF8",
+                        "#CDE9E5",
+                        "#94D3CE",
+                        "#55B5B3",
+                        "#268B9A",
+                        "#174A73"
+                    ],
+                    clamp: true,
+                    zero: true
+                },
+
+                legend: {
+                    title: "Health spending/person (US$)",
+                    orient: "right",
+                    direction: "vertical",
+
+                    gradientLength: 280,
+                    gradientThickness: 20,
+
+                    tickCount: 7,
+                    format: "$,.0f",
+
+                    titleColor: "#142B4A",
+                    labelColor: "#63748A",
+                    titleFontSize: 12,
+                    labelFontSize: 10,
+
+                    labelOverlap: false,
+                    titleLimit: 180,
+                    labelLimit: 100
+                }
+            },
+            tooltip: [
+                {
+                    field: "map_country",
+                    type: "nominal",
+                    title: "Country"
+                },
+                {
+                    field: "health_spending",
+                    type: "quantitative",
+                    title: "Health spending per person (US$)",
+                    format: "$,.2f"
+                },
+                {
+                    field: "alpha4",
+                    type: "nominal",
+                    title: "Country code"
+                }
+            ]
+        },
+        config: {
+            font: "Arial",
+            view: {
+                stroke: null
+            }
+        }
+    };
+
+    vegaEmbed("#chart11", chart11Spec, {
+        actions: false,
+        renderer: "svg"
+    }).catch(error => {
+        console.error("Chart 11 could not be loaded:", error);
+        document.getElementById("chart11").innerHTML =
+            '<p style="color:#142B4A;">Unable to load Chart 11. ' +
+            'Check the map and CSV paths and browser console.</p>';
     });
     </script>
 </body>>

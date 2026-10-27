@@ -1,0 +1,291 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Bump chart showing changes in OECD country rankings from 2014 to 2024. Each line is labelled with the country name at both ends.",
+  "width": "container",
+  "height": 330,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "padding": {
+    "left": 8,
+    "right": 16,
+    "top": 16,
+    "bottom": 8
+  },
+  "data": {
+    "url": "data/oecd_spendingchange.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "fold": ["2014", "2016", "2018", "2020", "2022", "2024"],
+      "as": ["year", "rank"]
+    },
+    {
+      "calculate": "toNumber(datum.year)",
+      "as": "year_num"
+    },
+    {
+      "calculate": "toNumber(datum.rank)",
+      "as": "rank_num"
+    }
+  ],
+  "layer": [
+    {
+      "description": "Lines connecting each country's ranking across the years",
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.5,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "year_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [2012, 2026]
+          },
+          "axis": {
+            "title": null,
+            "values": [2014, 2016, 2018, 2020, 2022, 2024],
+            "format": "d",
+            "labelColor": "#63748A",
+            "labelFontSize": 11,
+            "labelPadding": 10,
+            "tickSize": 0,
+            "domainColor": "#DCE4ED",
+            "grid": false
+          }
+        },
+        "y": {
+          "field": "rank_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [7, 1],
+            "nice": false
+          },
+          "axis": {
+            "title": "Ranking",
+            "values": [1, 2, 3, 4, 5, 6, 7],
+            "labelColor": "#63748A",
+            "labelFontSize": 11,
+            "domain": false,
+            "tickSize": 0,
+            "grid": true,
+            "gridColor": "#E9EEF4",
+            "gridDash": [3, 4],
+            "format": "d"
+          }
+        },
+        "detail": {
+          "field": "Country"
+        },
+        "order": {
+          "field": "year_num",
+          "type": "quantitative"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Country === 'Australia'",
+            "value": "#168A91"
+          },
+          "value": "#315E9E"
+        },
+        "tooltip": [
+          {
+            "field": "Country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "year_num",
+            "type": "quantitative",
+            "title": "Year",
+            "format": "d"
+          },
+          {
+            "field": "rank_num",
+            "type": "quantitative",
+            "title": "Rank",
+            "format": "d"
+          }
+        ]
+      }
+    },
+    {
+      "description": "A dot marks each country's ranking in each year",
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 85,
+        "stroke": "#000000",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "year_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [2012, 2026]
+          }
+        },
+        "y": {
+          "field": "rank_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [7, 1],
+            "nice": false
+          }
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Country === 'Australia'",
+            "value": "#168A91"
+          },
+          "value": "#315E9E"
+        },
+        "tooltip": [
+          {
+            "field": "Country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "year_num",
+            "type": "quantitative",
+            "title": "Year",
+            "format": "d"
+          },
+          {
+            "field": "rank_num",
+            "type": "quantitative",
+            "title": "Rank",
+            "format": "d"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Country name at the left end of each line (2014 ranking)",
+      "transform": [
+        {
+          "filter": "datum.year_num === 2014"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -12,
+        "font": "Arial",
+        "fontSize": 11
+      },
+      "encoding": {
+        "x": {
+          "field": "year_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [2012, 2026]
+          }
+        },
+        "y": {
+          "field": "rank_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [7, 1],
+            "nice": false
+          }
+        },
+        "text": {
+          "field": "Country",
+          "type": "nominal"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Country === 'Australia'",
+            "value": "#168A91"
+          },
+          "value": "#315E9E"
+        },
+        "fontWeight": {
+          "condition": {
+            "test": "datum.Country === 'Australia'",
+            "value": 700
+          },
+          "value": 400
+        }
+      }
+    },
+    {
+      "description": "Country name at the right end of each line (2024 ranking)",
+      "transform": [
+        {
+          "filter": "datum.year_num === 2024"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 12,
+        "font": "Arial",
+        "fontSize": 11
+      },
+      "encoding": {
+        "x": {
+          "field": "year_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [2012, 2026]
+          }
+        },
+        "y": {
+          "field": "rank_num",
+          "type": "quantitative",
+          "scale": {
+            "domain": [7, 1],
+            "nice": false
+          }
+        },
+        "text": {
+          "field": "Country",
+          "type": "nominal"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.Country === 'Australia'",
+            "value": "#168A91"
+          },
+          "value": "#315E9E"
+        },
+        "fontWeight": {
+          "condition": {
+            "test": "datum.Country === 'Australia'",
+            "value": 700
+          },
+          "value": 400
+        }
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent"
+    }
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial",
+      "titleFontWeight": 600
+    }
+  }
+}
