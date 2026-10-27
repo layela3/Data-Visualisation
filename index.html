@@ -299,6 +299,30 @@
                     Some facts after covid changes
                 </p>
             </div>
+
+            <h2>How has spending changed over a decade?</h2>
+            <p class="chart-description">
+                Health remains Australia's largest spending category. Looking beyond
+                health, this connected dot plot compares government spending across
+                other functions in 2015 and 2025. Each line connects the two years,
+                revealing how spending has changed over the decade.
+            </p>
+
+            <div id="chart9"></div>
+
+            <p class="source">
+                Source: ABS, Government Finance Statistics, Annual 2024-25.
+            </p>
+            <div class="chapter-label"><strong>Chapter 4 · Big spender, or just a big country? </strong></div>
+            <h3>How has Australia's ranking changed?</h3>
+            <p class="chart-description">
+                Australia's position relative to six other countries with a similar gdp has shifted
+                over time.
+            </p>
+            <div id="chart10"></div>
+            <p class="source">
+                Source: OECD spending comparison dataset, 2014-2024.
+            </p>
         </section>
         
 
@@ -1396,5 +1420,533 @@
             'Check the CSV path and browser console.</p>';
     });
     </script>
-</body>
+    <div id="chart9"></div>
+
+    <script>
+    const chart9Spec = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+        "description": "Connected dot plot comparing government spending by function in 2015 and 2025. Click the year legend to highlight one year, or the category legend (shift-click for several) to focus on chosen categories.",
+        "width": "container",
+        "height": 390,
+        "autosize": {
+            "type": "fit-x",
+            "contains": "padding"
+        },
+        "background": "transparent",
+        "padding": {
+            "left": 8,
+            "right": 20,
+            "top": 16,
+            "bottom": 8
+        },
+        "data": {
+            "url": "data/aus_spending_changes.csv",
+            "format": {
+                "type": "csv"
+            }
+        },
+        "transform": [
+            {
+                "calculate": "trim(datum.category)",
+                "as": "category_clean"
+            },
+            {
+                "calculate": "toNumber(datum.spending_start)",
+                "as": "start"
+            },
+            {
+                "calculate": "toNumber(datum.spending_end)",
+                "as": "end"
+            },
+            {
+                "calculate": "datum.end - datum.start",
+                "as": "change"
+            },
+            {
+                "fold": [
+                    "start",
+                    "end"
+                ],
+                "as": [
+                    "period",
+                    "spending"
+                ]
+            },
+            {
+                "calculate": "datum.period === 'start' ? 2015 : 2025",
+                "as": "year"
+            }
+        ],
+        "layer": [
+            {
+                "description": "Line connecting the 2015 and 2025 spending values",
+                "mark": {
+                    "type": "line",
+                    "strokeWidth": 2.5
+                },
+                "encoding": {
+                    "y": {
+                        "field": "category_clean",
+                        "type": "nominal",
+                        "sort": {
+                            "field": "end",
+                            "op": "max",
+                            "order": "descending"
+                        },
+                        "axis": {
+                            "title": null,
+                            "labelColor": "#142B4A",
+                            "labelFontSize": 11,
+                            "labelLimit": 190,
+                            "domain": false,
+                            "ticks": false
+                        }
+                    },
+                    "x": {
+                        "field": "spending",
+                        "type": "quantitative",
+                        "scale": {
+                            "zero": true
+                        },
+                        "axis": {
+                            "title": "Government spending (A$ millions)",
+                            "titleColor": "#142B4A",
+                            "titleFontSize": 12,
+                            "titlePadding": 14,
+                            "labelColor": "#63748A",
+                            "labelFontSize": 11,
+                            "format": ",.0f",
+                            "tickCount": 6,
+                            "grid": true,
+                            "gridColor": "#E9EEF4",
+                            "gridDash": [
+                                3,
+                                4
+                            ],
+                            "domain": false,
+                            "tickSize": 0
+                        }
+                    },
+                    "detail": {
+                        "field": "category_clean"
+                    },
+                    "order": {
+                        "field": "year",
+                        "type": "quantitative"
+                    },
+                    "color": {
+                        "value": "#63748A"
+                    },
+                    "opacity": {
+                        "condition": {
+                            "param": "categoryPick",
+                            "value": 0.65
+                        },
+                        "value": 0.1
+                    },
+                    "tooltip": [
+                        {
+                            "field": "category_clean",
+                            "type": "nominal",
+                            "title": "Category"
+                        },
+                        {
+                            "field": "year",
+                            "type": "quantitative",
+                            "title": "Year",
+                            "format": "d"
+                        },
+                        {
+                            "field": "spending",
+                            "type": "quantitative",
+                            "title": "Spending (A$ million)",
+                            "format": ",.0f"
+                        }
+                    ]
+                }
+            },
+            {
+                "description": "Dots mark the spending value for each year. The two legends are interactive.",
+                "params": [
+                    {
+                        "name": "yearPick",
+                        "select": {
+                            "type": "point",
+                            "fields": [
+                                "year"
+                            ]
+                        },
+                        "bind": "legend"
+                    },
+                    {
+                        "name": "categoryPick",
+                        "select": {
+                            "type": "point",
+                            "fields": [
+                                "category_clean"
+                            ],
+                            "toggle": "event.shiftKey"
+                        },
+                        "bind": "legend"
+                    }
+                ],
+                "mark": {
+                    "type": "point",
+                    "filled": true,
+                    "size": 115,
+                    "stroke": "#FFFFFF",
+                    "strokeWidth": 1.5
+                },
+                "encoding": {
+                    "y": {
+                        "field": "category_clean",
+                        "type": "nominal",
+                        "sort": {
+                            "field": "end",
+                            "op": "max",
+                            "order": "descending"
+                        },
+                        "axis": {
+                            "title": null,
+                            "labelColor": "#142B4A",
+                            "labelFontSize": 11,
+                            "labelLimit": 190,
+                            "domain": false,
+                            "ticks": false
+                        }
+                    },
+                    "x": {
+                        "field": "spending",
+                        "type": "quantitative",
+                        "scale": {
+                            "zero": true
+                        }
+                    },
+                    "color": {
+                        "field": "year",
+                        "type": "ordinal",
+                        "scale": {
+                            "domain": [
+                                2015,
+                                2025
+                            ],
+                            "range": [
+                                "#315E9E",
+                                "#168A91"
+                            ]
+                        },
+                        "legend": {
+                            "title": "Year (click to highlight)",
+                            "titleColor": "#142B4A",
+                            "orient": "top",
+                            "direction": "horizontal",
+                            "labelColor": "#142B4A",
+                            "labelFontSize": 12,
+                            "symbolSize": 100,
+                            "padding": 8
+                        }
+                    },
+                    
+                    
+                    opacity: {
+                        condition: {
+                            test: {
+                                and: [
+                                    {
+                                        "param": "yearPick"
+                                    },
+                                    {
+                                        "param": "categoryPick"
+                                    }
+                                ]
+                            },
+                            "value": 1
+                        },
+                        "value": 0.12
+                    },
+                    "tooltip": [
+                        {
+                            "field": "category_clean",
+                            "type": "nominal",
+                            "title": "Category"
+                        },
+                        {
+                            "field": "year",
+                            "type": "quantitative",
+                            "title": "Year",
+                            "format": "d"
+                        },
+                        {
+                            "field": "spending",
+                            "type": "quantitative",
+                            "title": "Spending (A$ million)",
+                            "format": ",.0f"
+                        }
+                        ]
+                    }
+                }
+            ],
+            "resolve": {
+                "scale": {
+                    "color": "independent"
+                }
+            },
+            "config": {
+                "font": "Arial",
+                "view": {
+                    "stroke": null
+                },
+                "axis": {
+                    "labelFont": "Arial",
+                    "titleFont": "Arial",
+                    "titleFontWeight": 600
+                }
+            }
+        };
+
+        vegaEmbed("#chart9", chart9Spec, {
+            actions: false,
+            renderer: "svg"
+        }).catch(error => {
+            console.error("Chart 9 could not be loaded:", error);
+            document.getElementById("chart9").innerHTML =
+                '<p style="color:#142B4A;">Unable to load Chart 9. ' +
+                'Check the CSV file path and browser console.</p>';
+        });
+    </script>
+
+
+    <<script>
+    const chart10Spec = {
+        $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+
+        description:
+            "Bump chart showing changes in OECD country rankings from 2014 to 2024.",
+
+        width: 650,
+        height: 330,
+        background: "transparent",
+
+        padding: {
+            left: 8,
+            right: 16,
+            top: 16,
+            bottom: 8
+        },
+
+        data: {
+            url: "data/oecd_spendingchange.csv",
+            format: { type: "csv" }
+        },
+
+        transform: [
+            {
+                fold: [
+                    "2014",
+                    "2016",
+                    "2018",
+                    "2020",
+                    "2022",
+                    "2024"
+                ],
+                as: ["year", "rank"]
+            },
+            {
+                calculate: "toNumber(datum.year)",
+                as: "year_num"
+            },
+            {
+                calculate: "toNumber(datum.rank)",
+                as: "rank_num"
+            }
+        ],
+
+        layer: [
+            {
+                // Connect rankings across the years
+                mark: {
+                    type: "line",
+                    strokeWidth: 2.5,
+                    opacity: 0.8
+                },
+
+                encoding: {
+                    x: {
+                        field: "year_num",
+                        type: "quantitative",
+                        axis: {
+                            title: null,
+                            values: [2014, 2016, 2018, 2020, 2022, 2024],
+                            format: "d",
+                            labelColor: "#63748A",
+                            labelFontSize: 11,
+                            labelPadding: 10,
+                            tickSize: 0,
+                            domainColor: "#DCE4ED",
+                            grid: false
+                        },
+                        scale: {
+                            domain: [2013, 2024]
+                        }
+                    },
+
+                    y: {
+                        field: "rank_num",
+                        type: "quantitative",
+                        scale: {
+                            domain: [7, 1],
+                            nice: false
+                        },
+                        axis: {
+                            title: null,
+                            values: [1, 2, 3, 4, 5, 6, 7],
+                            labelExpr: "['Switzerland  ', 'France', 'Netherlands', 'Australia', 'Italy', 'Spain', 'Poland'][datum.value - 1]",
+                            labelColor: "#142B4A",
+                            labelFontSize: 11,
+                            labelLimit: 130,
+                            domain: false,
+                            tickSize: 0,
+                            grid: true,
+                            gridColor: "#E9EEF4",
+                            gridDash: [3, 4]
+                        }
+                    },
+
+                    detail: {
+                        field: "Country"
+                    },
+
+                    order: {
+                        field: "year_num",
+                        type: "quantitative"
+                    },
+
+                    color: {
+                        condition: {
+                            test: "datum.Country === 'Australia'",
+                            value: "#168A91"
+                        },
+                        value: "#315E9E"
+                    },
+
+                    tooltip: [
+                        {
+                            field: "Country",
+                            type: "nominal",
+                            title: "Country"
+                        },
+                        {
+                            field: "year_num",
+                            type: "quantitative",
+                            title: "Year",
+                            format: "d"
+                        },
+                        {
+                            field: "rank_num",
+                            type: "quantitative",
+                            title: "Rank",
+                            format: "d"
+                        }
+                    ]
+                }
+            },
+
+            {
+                // Mark each ranking with a dot
+                mark: {
+                    type: "point",
+                    filled: true,
+                    size: 85,
+                    stroke: "#000000",
+                    strokeWidth: 0.8
+                },
+
+                encoding: {
+                    x: {
+                        field: "year_num",
+                        type: "quantitative",
+                        scale: {
+                            domain: [2014, 2024]
+                        },
+                        axis: {
+                            title: null,
+                            values: [2014, 2016, 2018, 2020, 2022, 2024],
+                            format: "d"
+                        }
+                    },
+
+                    y: {
+                        field: "rank_num",
+                        type: "quantitative",
+                        scale: {
+                            domain: [7, 1],
+                            nice: false
+                        },
+                        axis: {
+                            title: "Ranking",
+                            values: [1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+
+                    color: {
+                        condition: {
+                            test: "datum.Country === 'Australia'",
+                            value: "#168A91"
+                        },
+                        value: "#315E9E"
+                    },
+
+                    tooltip: [
+                        {
+                            field: "Country",
+                            type: "nominal",
+                            title: "Country"
+                        },
+                        {
+                            field: "year_num",
+                            type: "quantitative",
+                            title: "Year",
+                            format: "d"
+                        },
+                        {
+                            field: "rank_num",
+                            type: "quantitative",
+                            title: "Rank",
+                            format: "d"
+                        }
+                    ]
+                }
+            }
+        ],
+
+        resolve: {
+            scale: {
+                color: "independent"
+            }
+        },
+
+        config: {
+            font: "Arial",
+            view: {
+                stroke: null
+            },
+            axis: {
+                labelFont: "Arial",
+                titleFont: "Arial",
+                titleFontWeight: 600
+            }
+        }
+    };
+
+    vegaEmbed("#chart10", chart10Spec, {
+        actions: false,
+        renderer: "svg"
+    }).catch(error => {
+        console.error("Chart 10 could not be loaded:", error);
+        document.getElementById("chart10").innerHTML =
+            '<p style="color:#142B4A;">Unable to load Chart 10. ' +
+            'Check the CSV file path and browser console.</p>';
+    });
+    </script>
+</body>>
 </html>

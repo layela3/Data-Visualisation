@@ -1,0 +1,132 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Geographic distribution of Australian hospitals by sector.",
+  "width": "container",
+  "height": 550,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "projection": {
+    "type": "mercator",
+    "center": [134, -27],
+    "scale": 750
+  },
+  "layer": [
+    {
+      "description": "Australia state and territory boundaries",
+      "data": {
+        "url": "data/aus_states_simplified.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#CBE7E1",
+        "stroke": "#000000",
+        "strokeWidth": 2.2
+      }
+    },
+    {
+      "description": "Hospital locations (open hospitals only), coloured by sector",
+      "data": {
+        "url": "data/aus_hospitals.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "transform": [
+        {
+          "calculate": "toNumber(datum.longitude)",
+          "as": "lon"
+        },
+        {
+          "calculate": "toNumber(datum.latitude)",
+          "as": "lat"
+        },
+        {
+          "filter": "isValid(datum.lon) && isValid(datum.lat) && datum.lon >= 112 && datum.lon <= 154 && datum.lat >= -45 && datum.lat <= -9"
+        },
+        {
+          "filter": "!datum.open_closed || lower(trim(datum.open_closed)) === 'open'"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "size": 28,
+        "opacity": 0.8,
+        "stroke": "#FFFFFF",
+        "strokeWidth": 0.35
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "sector",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Public", "Private"],
+            "range": ["#168A91", "#315E9E"]
+          },
+          "legend": {
+            "title": "Hospital sector",
+            "orient": "bottom",
+            "titleColor": "#142B4A",
+            "labelColor": "#142B4A",
+            "labelFont": "Arial",
+            "titleFont": "Arial",
+            "symbolType": "circle",
+            "symbolSize": 90
+          }
+        },
+        "tooltip": [
+          {
+            "field": "name",
+            "type": "nominal",
+            "title": "Hospital"
+          },
+          {
+            "field": "state",
+            "type": "nominal",
+            "title": "State / territory"
+          },
+          {
+            "field": "sector",
+            "type": "nominal",
+            "title": "Sector"
+          },
+          {
+            "field": "type",
+            "type": "nominal",
+            "title": "Facility type"
+          },
+          {
+            "field": "open_closed",
+            "type": "nominal",
+            "title": "Status"
+          },
+          {
+            "field": "local_hospital_network",
+            "type": "nominal",
+            "title": "Local hospital network"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

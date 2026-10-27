@@ -1,0 +1,142 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Health spending per person across Australian jurisdictions.",
+  "width": "container",
+  "height": 300,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "data": {
+    "url": "data/state_health_perperson.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "toNumber(datum['health_spending_perperson(A$)'])",
+      "as": "spending"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "jurisdiction",
+      "type": "nominal",
+      "sort": {
+        "field": "spending",
+        "order": "descending"
+      },
+      "axis": {
+        "title": null,
+        "labelColor": "#142B4A",
+        "labelFontSize": 12,
+        "labelLimit": 200,
+        "labelPadding": 8,
+        "domain": false,
+        "ticks": false
+      }
+    },
+    "x": {
+      "field": "spending",
+      "type": "quantitative",
+      "scale": {
+        "domain": [0, 10500]
+      },
+      "axis": {
+        "title": "Health spending per person (A$)",
+        "titleColor": "#142B4A",
+        "titleFontSize": 12,
+        "titlePadding": 14,
+        "labelColor": "#63748A",
+        "format": "$,.0f",
+        "tickCount": 5,
+        "grid": true,
+        "gridColor": "#D0E5E1",
+        "gridDash": [3, 4],
+        "domain": false,
+        "tickSize": 0
+      }
+    },
+    "tooltip": [
+      {
+        "field": "jurisdiction",
+        "title": "Jurisdiction"
+      },
+      {
+        "field": "spending",
+        "title": "Health spending per person",
+        "format": "$,.2f"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "description": "Stick from zero to the value",
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "x": {
+          "datum": 0
+        },
+        "x2": {
+          "field": "spending"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.jurisdiction === 'Northern Territory'",
+            "value": "#168A91"
+          },
+          "value": "#315E9E"
+        }
+      }
+    },
+    {
+      "description": "Dot at the value",
+      "mark": {
+        "type": "circle",
+        "size": 150,
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "datum.jurisdiction === 'Northern Territory'",
+            "value": "#168A91"
+          },
+          "value": "#315E9E"
+        }
+      }
+    },
+    {
+      "description": "Value label",
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 10,
+        "font": "Arial",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#142B4A"
+      },
+      "encoding": {
+        "text": {
+          "field": "spending",
+          "type": "quantitative",
+          "format": "$,.2f"
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

@@ -1,0 +1,277 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Connected dot plot comparing government spending by function in 2015 and 2025. Click the year legend to highlight one year, or the category legend (shift-click for several) to focus on chosen categories.",
+  "width": "container",
+  "height": 390,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "padding": {
+    "left": 8,
+    "right": 20,
+    "top": 16,
+    "bottom": 8
+  },
+  "data": {
+    "url": "data/aus_spending_changes.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "trim(datum.category)",
+      "as": "category_clean"
+    },
+    {
+      "calculate": "toNumber(datum.spending_start)",
+      "as": "start"
+    },
+    {
+      "calculate": "toNumber(datum.spending_end)",
+      "as": "end"
+    },
+    {
+      "calculate": "datum.end - datum.start",
+      "as": "change"
+    },
+    {
+      "fold": ["start", "end"],
+      "as": ["period", "spending"]
+    },
+    {
+      "calculate": "datum.period === 'start' ? 2015 : 2025",
+      "as": "year"
+    }
+  ],
+  "layer": [
+    {
+      "description": "Line connecting the 2015 and 2025 spending values",
+      "mark": {
+        "type": "line",
+        "strokeWidth": 2.5
+      },
+      "encoding": {
+        "y": {
+          "field": "category_clean",
+          "type": "nominal",
+          "sort": {
+            "field": "end",
+            "op": "max",
+            "order": "descending"
+          },
+          "axis": {
+            "title": null,
+            "labelColor": "#142B4A",
+            "labelFontSize": 11,
+            "labelLimit": 190,
+            "domain": false,
+            "ticks": false
+          }
+        },
+        "x": {
+          "field": "spending",
+          "type": "quantitative",
+          "scale": {
+            "zero": true
+          },
+          "axis": {
+            "title": "Government spending (A$ millions)",
+            "titleColor": "#142B4A",
+            "titleFontSize": 12,
+            "titlePadding": 14,
+            "labelColor": "#63748A",
+            "labelFontSize": 11,
+            "format": ",.0f",
+            "tickCount": 6,
+            "grid": true,
+            "gridColor": "#E9EEF4",
+            "gridDash": [3, 4],
+            "domain": false,
+            "tickSize": 0
+          }
+        },
+        "detail": {
+          "field": "category_clean"
+        },
+        "order": {
+          "field": "year",
+          "type": "quantitative"
+        },
+        "color": {
+          "value": "#63748A"
+        },
+        "opacity": {
+          "condition": {
+            "param": "categoryPick",
+            "value": 0.65
+          },
+          "value": 0.1
+        },
+        "tooltip": [
+          {
+            "field": "category_clean",
+            "type": "nominal",
+            "title": "Category"
+          },
+          {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "format": "d"
+          },
+          {
+            "field": "spending",
+            "type": "quantitative",
+            "title": "Spending (A$ million)",
+            "format": ",.0f"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Dots mark the spending value for each year. The two legends are interactive.",
+      "params": [
+        {
+          "name": "yearPick",
+          "select": {
+            "type": "point",
+            "fields": ["year"]
+          },
+          "bind": "legend"
+        },
+        {
+          "name": "categoryPick",
+          "select": {
+            "type": "point",
+            "fields": ["category_clean"],
+            "toggle": "event.shiftKey"
+          },
+          "bind": "legend"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 115,
+        "stroke": "#FFFFFF",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "y": {
+          "field": "category_clean",
+          "type": "nominal",
+          "sort": {
+            "field": "end",
+            "op": "max",
+            "order": "descending"
+          },
+          "axis": {
+            "title": null,
+            "labelColor": "#142B4A",
+            "labelFontSize": 11,
+            "labelLimit": 190,
+            "domain": false,
+            "ticks": false
+          }
+        },
+        "x": {
+          "field": "spending",
+          "type": "quantitative",
+          "scale": {
+            "zero": true
+          }
+        },
+        "color": {
+          "field": "year",
+          "type": "ordinal",
+          "scale": {
+            "domain": [2015, 2025],
+            "range": ["#315E9E", "#168A91"]
+          },
+          "legend": {
+            "title": "Year (click to highlight)",
+            "titleColor": "#142B4A",
+            "orient": "top",
+            "direction": "horizontal",
+            "labelColor": "#142B4A",
+            "labelFontSize": 12,
+            "symbolSize": 100,
+            "padding": 8
+          }
+        },
+        "shape": {
+          "field": "category_clean",
+          "type": "nominal",
+          "scale": {
+            "range": ["circle"]
+          },
+          "legend": {
+            "title": ["Category", "(click to focus;", "shift-click for several)"],
+            "titleColor": "#142B4A",
+            "orient": "right",
+            "labelColor": "#142B4A",
+            "labelFontSize": 11,
+            "labelLimit": 200,
+            "symbolSize": 100,
+            "symbolFillColor": "#63748A",
+            "symbolStrokeColor": "#63748A"
+          }
+        },
+        "opacity": {
+          "condition": {
+            "test": {
+              "and": [
+                {
+                  "param": "yearPick"
+                },
+                {
+                  "param": "categoryPick"
+                }
+              ]
+            },
+            "value": 1
+          },
+          "value": 0.12
+        },
+        "tooltip": [
+          {
+            "field": "category_clean",
+            "type": "nominal",
+            "title": "Category"
+          },
+          {
+            "field": "year",
+            "type": "quantitative",
+            "title": "Year",
+            "format": "d"
+          },
+          {
+            "field": "spending",
+            "type": "quantitative",
+            "title": "Spending (A$ million)",
+            "format": ",.0f"
+          }
+        ]
+      }
+    }
+  ],
+  "resolve": {
+    "scale": {
+      "color": "independent"
+    }
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial",
+      "titleFontWeight": 600
+    }
+  }
+}
