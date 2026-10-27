@@ -1,0 +1,100 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Health spending by state and territory, 2024-25 (A$ billions).",
+  "width": "container",
+  "height": 550,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "projection": {
+    "type": "mercator",
+    "center": [
+      134,
+      -27
+    ],
+    "scale": 750
+  },
+  "data": {
+    "url": "data/aus_states_simplified.geojson",
+    "format": {
+      "type": "json",
+      "property": "features"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "datum.properties.name",
+      "as": "jurisdiction_name"
+    },
+    {
+      "lookup": "jurisdiction_name",
+      "from": {
+        "data": {
+          "url": "data/state_health_share.csv",
+          "format": {
+            "type": "csv"
+          }
+        },
+        "key": "jurisdiction",
+        "fields": [
+          "health_spending"
+        ]
+      },
+      "as": [
+        "health_spending_m"
+      ]
+    },
+    {
+      "calculate": "toNumber(datum.health_spending_m)/1000",
+      "as": "health_billion"
+    }
+  ],
+  "mark": {
+    "type": "geoshape",
+    "stroke": "#000000",
+    "strokeWidth": 1.5
+  },
+  "encoding": {
+    "color": {
+      "field": "health_billion",
+      "type": "quantitative",
+      "scale": {
+        "domain": [
+          0,
+          35
+        ],
+        "range": [
+          "#D9EFEB",
+          "#168A91"
+        ]
+      },
+      "legend": {
+        "title": "Health spending (A$ billion)",
+        "titleColor": "#142B4A",
+        "labelColor": "#142B4A",
+        "format": ".0f",
+        "orient": "bottom"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "jurisdiction_name",
+        "title": "State"
+      },
+      {
+        "field": "health_billion",
+        "type": "quantitative",
+        "title": "Health spending (A$ billions)",
+        "format": ".2f"
+      }
+    ]
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

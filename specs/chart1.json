@@ -1,0 +1,138 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Australian general government revenue and expenses, 2015-16 to 2024-25 (A$ billions).",
+  "width": "container",
+  "height": 300,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "padding": {
+    "left": 8,
+    "right": 16,
+    "top": 16,
+    "bottom": 8
+  },
+  "data": {
+    "url": "data/government_finances.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "mark": {
+    "type": "line",
+    "strokeWidth": 3,
+    "point": {
+      "filled": true,
+      "size": 65
+    }
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "sort": [
+        "2015-16",
+        "2016-17",
+        "2017-18",
+        "2018-19",
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25"
+      ],
+      "axis": {
+        "title": null,
+        "labelAngle": -35,
+        "labelColor": "#63748A",
+        "labelFontSize": 11,
+        "labelPadding": 10,
+        "tickSize": 0,
+        "domainColor": "#DCE4ED",
+        "grid": false
+      }
+    },
+    "y": {
+      "field": "value_billion",
+      "type": "quantitative",
+      "scale": {
+        "zero": true
+      },
+      "axis": {
+        "title": "A$ billions",
+        "titleColor": "#142B4A",
+        "titleFontSize": 12,
+        "titlePadding": 14,
+        "labelColor": "#63748A",
+        "labelFontSize": 11,
+        "format": ",.0f",
+        "tickCount": 6,
+        "grid": true,
+        "gridColor": "#E9EEF4",
+        "gridDash": [
+          3,
+          4
+        ],
+        "domain": false,
+        "tickSize": 0
+      }
+    },
+    "color": {
+      "field": "measure",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "Revenue",
+          "Expenses"
+        ],
+        "range": [
+          "#315E9E",
+          "#168A91"
+        ]
+      },
+      "legend": {
+        "title": null,
+        "orient": "top",
+        "direction": "horizontal",
+        "labelColor": "#142B4A",
+        "labelFontSize": 13,
+        "symbolType": "stroke",
+        "symbolStrokeWidth": 3,
+        "symbolSize": 180,
+        "padding": 8
+      }
+    },
+    "tooltip": [
+      {
+        "field": "year",
+        "type": "ordinal",
+        "title": "Financial year"
+      },
+      {
+        "field": "measure",
+        "type": "nominal",
+        "title": "Measure"
+      },
+      {
+        "field": "value_billion",
+        "type": "quantitative",
+        "title": "A$ billions",
+        "format": ",.1f"
+      }
+    ]
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "labelFont": "Arial",
+      "titleFont": "Arial",
+      "titleFontWeight": 600
+    }
+  }
+}

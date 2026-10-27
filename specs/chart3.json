@@ -1,0 +1,101 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Total government expenses by state and territory, 2024-25 (circle size = A$ billions).",
+  "width": "container",
+  "height": 550,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "projection": {
+    "type": "mercator",
+    "center": [
+      134,
+      -27
+    ],
+    "scale": 750
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/aus_states_simplified.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#CBE7E1",
+        "stroke": "#000000",
+        "strokeWidth": 2.2
+      }
+    },
+    {
+      "data": {
+        "url": "data/state_totalspending.csv",
+        "format": {
+          "type": "csv"
+        }
+      },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.82,
+        "stroke": "#000000",
+        "strokeWidth": 0.7
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "expenses_billion",
+          "type": "quantitative",
+          "scale": {
+            "range": [
+              120,
+              1800
+            ]
+          },
+          "legend": {
+            "title": "Expenses (A$ billions)",
+            "titleColor": "#142B4A",
+            "labelColor": "#142B4A",
+            "orient": "bottom"
+          }
+        },
+        "color": {
+          "value": "#168A91"
+        },
+        "tooltip": [
+          {
+            "field": "jurisdiction",
+            "title": "State"
+          },
+          {
+            "field": "expenses_billion",
+            "type": "quantitative",
+            "title": "Expenses (A$ billions)",
+            "format": ",.2f"
+          },
+          {
+            "field": "year",
+            "title": "Year"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

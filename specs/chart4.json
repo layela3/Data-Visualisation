@@ -1,0 +1,120 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Share of each state's total spending by function, 2024-25 (%).",
+  "width": "container",
+  "height": 330,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "data": {
+    "url": "data/state_spending_breakdown.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "calculate": "trim(datum.jurisdiction)",
+      "as": "state"
+    },
+    {
+      "calculate": "trim(datum.spending_categories)",
+      "as": "category"
+    },
+    {
+      "calculate": "toNumber(datum.percentage_oftotal_spending)",
+      "as": "share"
+    }
+  ],
+  "mark": {
+    "type": "rect",
+    "cornerRadius": 2,
+    "stroke": "#E4F3F0",
+    "strokeWidth": 2
+  },
+  "encoding": {
+    "x": {
+      "field": "category",
+      "type": "nominal",
+      "sort": [
+        "General Public services",
+        "Public order and safety",
+        "Economic affairs",
+        "Environmental protection",
+        "Housing and community amenities",
+        "Health",
+        "Recreation",
+        "Education",
+        "Social protection",
+        "Transport"
+      ],
+      "axis": {
+        "title": null,
+        "labelAngle": -55,
+        "labelLimit": 120,
+        "labelFontSize": 10,
+        "labelColor": "#142B4A",
+        "domain": false,
+        "ticks": false
+      }
+    },
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "sort": [
+        "New South Wales",
+        "Victoria",
+        "Queensland",
+        "Western Australia",
+        "South Australia",
+        "Tasmania",
+        "Northern Territory",
+        "Australian Capital Territory"
+      ],
+      "axis": {
+        "title": null,
+        "labelFontSize": 10,
+        "labelColor": "#142B4A",
+        "labelLimit": 155,
+        "domain": false,
+        "ticks": false
+      }
+    },
+    "color": {
+      "field": "share",
+      "type": "quantitative",
+      "scale": {
+        "scheme": "tealblues"
+      },
+      "legend": {
+        "title": "% of state spending",
+        "titleColor": "#142B4A",
+        "labelColor": "#142B4A"
+      }
+    },
+    "tooltip": [
+      {
+        "field": "state",
+        "title": "Jurisdiction"
+      },
+      {
+        "field": "category",
+        "title": "Spending category"
+      },
+      {
+        "field": "share",
+        "type": "quantitative",
+        "title": "Share (%)",
+        "format": ".2f"
+      }
+    ]
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

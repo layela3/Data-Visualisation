@@ -1,0 +1,92 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Government spending per capita, Australia versus comparison countries, 2024.",
+  "width": "container",
+  "height": 250,
+  "autosize": {
+    "type": "fit-x",
+    "contains": "padding"
+  },
+  "background": "transparent",
+  "data": {
+    "url": "data/oecd_spending.csv",
+    "format": {
+      "type": "csv"
+    }
+  },
+  "transform": [
+    {
+      "filter": "datum.year == 2024"
+    },
+    {
+      "calculate": "trim(datum.country)",
+      "as": "country_clean"
+    },
+    {
+      "calculate": "toNumber(datum['spending_per_population'])",
+      "as": "spending"
+    }
+  ],
+  "mark": {
+    "type": "bar",
+    "cornerRadiusEnd": 4,
+    "height": {
+      "band": 0.68
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "country_clean",
+      "type": "nominal",
+      "sort": "-x",
+      "axis": {
+        "title": null,
+        "labelColor": "#142B4A",
+        "labelFontSize": 12,
+        "domain": false,
+        "ticks": false
+      }
+    },
+    "x": {
+      "field": "spending",
+      "type": "quantitative",
+      "axis": {
+        "title": "spending per capita",
+        "titleColor": "#142B4A",
+        "labelColor": "#63748A",
+        "gridColor": "#D0E5E1",
+        "domain": false,
+        "tickSize": 0
+      }
+    },
+    "color": {
+      "condition": {
+        "test": "datum.country_clean === 'Australia'",
+        "value": "#168A91"
+      },
+      "value": "#315E9E"
+    },
+    "tooltip": [
+      {
+        "field": "country_clean",
+        "title": "Country"
+      },
+      {
+        "field": "year",
+        "title": "Year"
+      },
+      {
+        "field": "spending",
+        "type": "quantitative",
+        "title": "Reported value",
+        "format": ".5f"
+      }
+    ]
+  },
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}

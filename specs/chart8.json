@@ -1,0 +1,219 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "description": "Interactive pie chart of health spending by category, with a clickable legend",
+  "width": 800,
+  "height": 420,
+  "padding": 15,
+  "background": "transparent",
+  "signals": [
+    {
+      "name": "selectedCategory",
+      "value": null,
+      "on": [
+        {
+          "events": "@legendSymbol:click, @legendLabel:click",
+          "update": "selectedCategory === datum.value ? null : datum.value"
+        }
+      ]
+    }
+  ],
+  "data": [
+    {
+      "name": "health",
+      "url": "data/health_breakdown.csv",
+      "format": {
+        "type": "csv"
+      },
+      "transform": [
+        {
+          "type": "formula",
+          "as": "category",
+          "expr": "datum.health_categories"
+        },
+        {
+          "type": "formula",
+          "as": "spending",
+          "expr": "toNumber(datum['health_spending(A$million)'])"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum.spending) && datum.spending > 0"
+        },
+        {
+          "type": "pie",
+          "field": "spending",
+          "sort": false
+        },
+        {
+          "type": "formula",
+          "as": "share",
+          "expr": "(datum.endAngle - datum.startAngle) / (2 * PI)"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "pieColors",
+      "type": "ordinal",
+      "domain": [
+        "Community health services",
+        "Outpatient services",
+        "Hospital services",
+        "Other health",
+        "Public health services",
+        "Medical equipment"
+      ],
+      "range": [
+        "#168A91",
+        "#315E9E",
+        "#142B4A",
+        "#63748A",
+        "#4DAEB0",
+        "#8DBFC0"
+      ]
+    }
+  ],
+  "legends": [
+    {
+      "fill": "pieColors",
+      "orient": "none",
+      "legendX": 520,
+      "legendY": 120,
+      "title": "Health spending category",
+      "titleColor": "#142B4A",
+      "titleFont": "Arial",
+      "titleFontSize": 13,
+      "titlePadding": 10,
+      "labelColor": "#142B4A",
+      "labelFont": "Arial",
+      "labelFontSize": 13,
+      "labelLimit": 220,
+      "symbolType": "circle",
+      "symbolSize": 180,
+      "rowPadding": 8,
+      "encode": {
+        "symbols": {
+          "name": "legendSymbol",
+          "interactive": true,
+          "update": {
+            "opacity": {
+              "signal": "selectedCategory === null || selectedCategory === datum.value ? 1 : 0.25"
+            },
+            "cursor": {
+              "value": "pointer"
+            }
+          }
+        },
+        "labels": {
+          "name": "legendLabel",
+          "interactive": true,
+          "update": {
+            "opacity": {
+              "signal": "selectedCategory === null || selectedCategory === datum.value ? 1 : 0.35"
+            },
+            "cursor": {
+              "value": "pointer"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "marks": [
+    {
+      "type": "arc",
+      "from": {
+        "data": "health"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "value": 255
+          },
+          "y": {
+            "value": 210
+          },
+          "startAngle": {
+            "field": "startAngle"
+          },
+          "endAngle": {
+            "field": "endAngle"
+          },
+          "innerRadius": {
+            "value": 0
+          },
+          "outerRadius": {
+            "value": 165
+          },
+          "stroke": {
+            "value": "#E4F3F0"
+          },
+          "strokeWidth": {
+            "value": 1
+          }
+        },
+        "update": {
+          "fill": {
+            "scale": "pieColors",
+            "field": "category"
+          },
+          "opacity": {
+            "signal": "selectedCategory === null || selectedCategory === datum.category ? 1 : 0.22"
+          },
+          "tooltip": {
+            "signal": "{'Category': datum.category, 'Spending': 'A$' + format(datum.spending, ',.0f') + ' million', 'Share': format(datum.share * 100, '.1f') + '%'}"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "health"
+      },
+      "encode": {
+        "enter": {
+          "x": {
+            "signal": "255 + 112 * cos((datum.startAngle + datum.endAngle) / 2 - PI / 2)"
+          },
+          "y": {
+            "signal": "210 + 112 * sin((datum.startAngle + datum.endAngle) / 2 - PI / 2)"
+          },
+          "text": {
+            "signal": "format(datum.share * 100, '.0f') + '%'"
+          },
+          "align": {
+            "value": "center"
+          },
+          "baseline": {
+            "value": "middle"
+          },
+          "fill": {
+            "value": "#FFFFFF"
+          },
+          "font": {
+            "value": "Arial"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fontWeight": {
+            "value": 700
+          }
+        },
+        "update": {
+          "opacity": {
+            "signal": "selectedCategory === null || selectedCategory === datum.category ? 1 : 0.15"
+          }
+        }
+      }
+    }
+  ],
+  "config": {
+    "font": "Arial",
+    "view": {
+      "stroke": null
+    }
+  }
+}
