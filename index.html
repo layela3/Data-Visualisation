@@ -231,17 +231,74 @@
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
             </p>
 
-            <h2>An average of 30% of total government expenditure goes t Health 
-                Australia has an aging population so there is high demand for aged care.
-            </h2>
+            <div class="chapter-label">Chapter 3 · Spending Breakdown</div>
+
+            <h2>Health is a major spending commitment</h2>
+
             <p class="chart-description">
-                Darker teal indicates a higher share of total jurisdictional
-                expenditure allocated to health. 
+                Australia has a large population that is aging so there is high demand for aged care health resources.
             </p>
+
             <div id="chart5"></div>
+
             <p class="source">
                 Source: ABS, Government Finance Statistics, Annual 2024-25.
             </p>
+
+            <div class="insight">
+                <p>
+                    Australia facts
+                </p>
+            </div>
+            <h2>Where are Australia's hospitals?</h2>
+            <div class="insight">
+                <strong>Hospital infrastructure is geographically uneven.</strong>
+                <p>
+                    Mapping shows that they 
+                </p>
+            </div>
+            <div id="chart6"></div>
+
+            <p class="source">
+                Source: Public data au
+            </p>
+             <p class="chart-description">
+                Each dot represents a hospital location across Australia.
+            </p>
+            <div class="insight">
+                <strong>Tasmania has a very large aging population.</strong>
+                <p>
+                    At
+                </p>
+            </div>
+            <div id="chart7"></div>
+
+            <p class="source">
+                Source: ABS, Government Finance Statistics, Annual 2024-25.
+            </p>
+            
+            <p class="chart-description">
+                <strong>
+                    The Northern Territory has the highest per-person spending.
+                </strong>
+            </p>
+            
+            <h2>Where does all the health spending go?</h2>
+            <p class="chart-description">
+                Health spending covers a range of services, from hospitals and
+                outpatient care to community and public health services.
+            </p>
+            <div id="chart8"></div>
+            <p class="source">
+                Source: ABS, Government Finance Statistics, Annual 2024-25.
+            </p>
+
+            <div class="insight">
+                <strong>Community and outpatient services account for substantial spending.</strong>
+                <p>
+                    Some facts after covid changes
+                </p>
+            </div>
         </section>
         
 
@@ -685,106 +742,658 @@
                 "exists and that the page is running through a local server.</p>";
         });
     </script>
-
     
     
     <script>
     const chart5Spec = {
-    $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+        $schema: "https://vega.github.io/schema/vega-lite/v6.json",
 
-    width: 800,
-    height: 550,
-    autosize: { type: "fit", contains: "padding" },
-    background: "transparent",
+        description: "Health spending by Australian jurisdiction",
 
-    projection: {
-        type: "mercator",
-        center: [134, -27],
-        scale: 750
-    },
+        width: 650,
+        height: 300,
+        background: "transparent",
 
-    data: {
-        url: "data/aus_states_named.geojson",
-        format: {
-        type: "json",
-        property: "features"
-        }
-    },
-
-    transform: [
-        {
-        lookup: "properties.jurisdiction",
-        from: {
-            data: {
+        data: {
             url: "data/state_health_share.csv",
             format: { type: "csv" }
-            },
-            key: "jurisdiction",
-            fields: ["health_spending"]
         },
-        as: ["health_spending"]
-        },
-        {
-        calculate: "toNumber(datum.health_spending)",
-        as: "health_value"
-        }
-    ],
 
-    mark: {
-        type: "geoshape",
-        fill: "#168A91",
-        stroke: "#000000",
-        strokeWidth: 1
-    },
-
-    encoding: {
-        color: {
-        condition: {
-            test: "isValid(datum.health_value)",
-            field: "health_value",
-            type: "quantitative",
-            scale: {
-            domain: [0, 40000],
-            range: ["#D9EFEB", "#168A91"],
-            clamp: true
-            },
-            legend: {
-            title: "Health spending (A$ million)",
-            titleColor: "#142B4A",
-            labelColor: "#142B4A"
+        transform: [
+            {
+                calculate: "toNumber(datum.health_spending)",
+                as: "spending"
             }
-        },
-        value: "#D9EFEB"
+        ],
+
+        encoding: {
+            y: {
+                field: "jurisdiction",
+                type: "nominal",
+                sort: {
+                    field: "spending",
+                    order: "descending"
+                },
+                axis: {
+                    title: null,
+                    labelColor: "#142B4A",
+                    labelFontSize: 12,
+                    labelLimit: 200,
+                    labelPadding: 8,
+                    domain: false,
+                    ticks: false
+                }
+            },
+
+            x: {
+                field: "spending",
+                type: "quantitative",
+                scale: {
+                    domain: [0, 37000]
+                },
+                axis: {
+                    title: "spending (A$ million)",
+                    titleColor: "#142B4A",
+                    titleFontSize: 12,
+                    titlePadding: 14,
+                    labelColor: "#63748A",
+                    format: ",.0f",
+                    tickCount: 5,
+                    grid: true,
+                    gridColor: "#D0E5E1",
+                    gridDash: [3, 4],
+                    domain: false,
+                    tickSize: 0
+                }
+            },
+
+            tooltip: [
+                {
+                    field: "jurisdiction",
+                    title: "Jurisdiction"
+                },
+                {
+                    field: "spending",
+                    title: "Health spending",
+                    format: ",.0f"
+                }
+            ]
         },
 
-        tooltip: [
-        {
-            field: "properties.jurisdiction",
-            type: "nominal",
-            title: "Jurisdiction"
-        },
-        {
-            field: "health_spending",
-            type: "quantitative",
-            title: "Health spending",
-            format: ",.0f"
+        layer: [
+            {
+                // Stem connecting zero to the spending value
+                mark: {
+                    type: "rule",
+                    strokeWidth: 2
+                },
+                encoding: {
+                    x: {
+                        datum: 0
+                    },
+                    x2: {
+                        field: "spending"
+                    },
+                    color: {
+                        value: "#168A91"
+                    }
+                }
+            },
+
+            {
+                // Circle at the end of each stem
+                mark: {
+                    type: "circle",
+                    size: 150,
+                    stroke: "#168A91",
+                    strokeWidth: 1.5
+                },
+                encoding: {
+                    color: {
+                        value: "#168A91"
+                    }
+                }
+            },
+
+            {
+                // Exact spending value beside each circle
+                mark: {
+                    type: "text",
+                    align: "left",
+                    baseline: "middle",
+                    dx: 10,
+                    font: "Arial",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "#142B4A"
+                },
+                encoding: {
+                    text: {
+                        field: "spending",
+                        type: "quantitative",
+                        format: ",.0f"
+                    }
+                }
+            }
+        ],
+
+        config: {
+            font: "Arial",
+            view: {
+                stroke: null
+            }
         }
-        ]
-    },
-
-    config: {
-        font: "Arial",
-        view: { stroke: null }
-    }
     };
 
     vegaEmbed("#chart5", chart5Spec, {
-    actions: false,
-    renderer: "svg"
+        actions: false,
+        renderer: "svg"
     }).catch(error => {
-    console.error("Chart 5 could not be loaded:", error);
-    document.getElementById("chart5").innerHTML =
-        "<p>Chart 5 failed to load. Check the browser console.</p>";
+        console.error("Chart 5 error:", error);
+
+        document.getElementById("chart5").innerHTML =
+            '<p style="color:#142B4A;">Chart 5 could not load. ' +
+            'Check the CSV path and browser console for details.</p>';
+    });
+    </script>
+
+    <script>
+    const chart6Spec = {
+        $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+
+        description:
+            "Geographic distribution of Australian hospitals by sector.",
+
+        width: 800,
+        height: 550,
+        background: "transparent",
+
+        projection: {
+            type: "mercator",
+            center: [134, -27],
+            scale: 750
+        },
+
+        layer: [
+            {
+                // Australia state and territory boundaries
+                data: {
+                    url: "data/aus_states_simplified.geojson",
+                    format: { type: "json" }
+                },
+
+                mark: {
+                    type: "geoshape",
+                    fill: "#CBE7E1",
+                    stroke: "#000000",
+                    strokeWidth: 2.2
+                }
+            },
+
+            {
+                // Hospital locations
+                data: {
+                    url: "data/aus_hospitals.csv",
+                    format: { type: "csv" }
+                },
+
+                transform: [
+                    {
+                        calculate: "toNumber(datum.longitude)",
+                        as: "lon"
+                    },
+                    {
+                        calculate: "toNumber(datum.latitude)",
+                        as: "lat"
+                    },
+                    {
+                        filter:
+                            "isValid(datum.lon) && isValid(datum.lat) && datum.lon >= 112 && datum.lon <= 154 && datum.lat >= -45 && datum.lat <= -9"
+                    },
+                    {
+                        filter:
+                            "!datum.open_closed || lower(trim(datum.open_closed)) === 'open'"
+                    }
+                ],
+
+                mark: {
+                    type: "circle",
+                    size: 28,
+                    opacity: 0.8,
+                    stroke: "#FFFFFF",
+                    strokeWidth: 0.35
+                },
+
+                encoding: {
+                    longitude: {
+                        field: "lon",
+                        type: "quantitative"
+                    },
+
+                    latitude: {
+                        field: "lat",
+                        type: "quantitative"
+                    },
+
+                    color: {
+                        field: "sector",
+                        type: "nominal",
+                        scale: {
+                            domain: ["Public", "Private"],
+                            range: ["#168A91", "#315E9E"]
+                        },
+                        legend: {
+                            title: "Hospital sector",
+                            orient: "bottom",
+                            titleColor: "#142B4A",
+                            labelColor: "#142B4A",
+                            labelFont: "Arial",
+                            titleFont: "Arial",
+                            symbolType: "circle",
+                            symbolSize: 90
+                        }
+                    },
+
+                    tooltip: [
+                        {
+                            field: "name",
+                            type: "nominal",
+                            title: "Hospital"
+                        },
+                        {
+                            field: "state",
+                            type: "nominal",
+                            title: "State / territory"
+                        },
+                        {
+                            field: "sector",
+                            type: "nominal",
+                            title: "Sector"
+                        },
+                        {
+                            field: "type",
+                            type: "nominal",
+                            title: "Facility type"
+                        },
+                        {
+                            field: "open_closed",
+                            type: "nominal",
+                            title: "Status"
+                        },
+                        {
+                            field: "local_hospital_network",
+                            type: "nominal",
+                            title: "Local hospital network"
+                        }
+                    ]
+                }
+            }
+        ],
+
+        config: {
+            font: "Arial",
+            view: {
+                stroke: null
+            }
+        }
+    };
+
+    vegaEmbed("#chart6", chart6Spec, {
+        actions: false,
+        renderer: "svg"
+    }).catch(error => {
+        console.error("Chart 6 could not be loaded:", error);
+
+        document.getElementById("chart6").innerHTML =
+            '<p style="color:#142B4A;">Unable to load Chart 6. ' +
+            'Check the hospital CSV, GeoJSON file paths and browser console.</p>';
+    });
+    </script>
+    
+    <script>
+    const chart7Spec = {
+        $schema: "https://vega.github.io/schema/vega-lite/v6.json",
+
+        description:
+            "Health spending per person across Australian jurisdictions.",
+
+        width: 650,
+        height: 300,
+        background: "transparent",
+
+        data: {
+            url: "data/state_health_perperson.csv",
+            format: { type: "csv" }
+        },
+
+        transform: [
+            {
+                calculate: "toNumber(datum['health_spending_perperson(A$)'])",
+                as: "spending"
+            }
+        ],
+
+        encoding: {
+            y: {
+                field: "jurisdiction",
+                type: "nominal",
+                sort: {
+                    field: "spending",
+                    order: "descending"
+                },
+                axis: {
+                    title: null,
+                    labelColor: "#142B4A",
+                    labelFontSize: 12,
+                    labelLimit: 200,
+                    labelPadding: 8,
+                    domain: false,
+                    ticks: false
+                }
+            },
+
+            x: {
+                field: "spending",
+                type: "quantitative",
+                scale: {
+                    domain: [0, 10500]
+                },
+                axis: {
+                    title: "Health spending per person (A$)",
+                    titleColor: "#142B4A",
+                    titleFontSize: 12,
+                    titlePadding: 14,
+                    labelColor: "#63748A",
+                    format: "$,.0f",
+                    tickCount: 5,
+                    grid: true,
+                    gridColor: "#D0E5E1",
+                    gridDash: [3, 4],
+                    domain: false,
+                    tickSize: 0
+                }
+            },
+
+            tooltip: [
+                {
+                    field: "jurisdiction",
+                    title: "Jurisdiction"
+                },
+                {
+                    field: "spending",
+                    title: "Health spending per person",
+                    format: "$,.2f"
+                }
+            ]
+        },
+
+        layer: [
+            {
+                mark: {
+                    type: "rule",
+                    strokeWidth: 2
+                },
+                encoding: {
+                    x: { datum: 0 },
+                    x2: { field: "spending" },
+                    color: {
+                        condition: {
+                            test: "datum.jurisdiction === 'Northern Territory'",
+                            value: "#168A91"
+                        },
+                        value: "#315E9E"
+                    }
+                }
+            },
+
+            {
+                mark: {
+                    type: "circle",
+                    size: 150,
+                    stroke: "#FFFFFF",
+                    strokeWidth: 1.5
+                },
+                encoding: {
+                    color: {
+                        condition: {
+                            test: "datum.jurisdiction === 'Northern Territory'",
+                            value: "#168A91"
+                        },
+                        value: "#315E9E"
+                    }
+                }
+            },
+
+            {
+                mark: {
+                    type: "text",
+                    align: "left",
+                    baseline: "middle",
+                    dx: 10,
+                    font: "Arial",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: "#142B4A"
+                },
+                encoding: {
+                    text: {
+                        field: "spending",
+                        type: "quantitative",
+                        format: "$,.2f"
+                    }
+                }
+            }
+        ],
+
+        config: {
+            font: "Arial",
+            view: { stroke: null }
+        }
+    };
+
+    vegaEmbed("#chart7", chart7Spec, {
+        actions: false,
+        renderer: "svg"
+    }).catch(error => {
+        console.error("Chart 7 could not be loaded:", error);
+
+        document.getElementById("chart7").innerHTML =
+            '<p style="color:#142B4A;">Unable to load Chart 7. ' +
+            'Check the CSV file path and browser console.</p>';
+    });
+    </script>
+    
+    <script>
+    const chart8Spec = {
+        $schema: "https://vega.github.io/schema/vega/v6.json",
+
+        description: "Interactive pie chart of health spending by category",
+
+        width: 800,
+        height: 420,
+        padding: 15,
+        background: "transparent",
+
+        signals: [
+            {
+                name: "selectedCategory",
+                value: null,
+                on: [
+                    {
+                        events: "@legendSymbol:click, @legendLabel:click",
+                        update: "selectedCategory === datum.value ? null : datum.value"
+                    }
+                ]
+            }
+        ],
+
+        data: [
+            {
+                name: "health",
+                url: "data/health_breakdown.csv",
+                format: { type: "csv" },
+                transform: [
+                    {
+                        type: "formula",
+                        as: "category",
+                        expr: "datum.health_categories"
+                    },
+                    {
+                        type: "formula",
+                        as: "spending",
+                        expr: "toNumber(datum['health_spending(A$million)'])"
+                    },
+                    {
+                        type: "filter",
+                        expr: "isValid(datum.spending) && datum.spending > 0"
+                    },
+                    {
+                        type: "pie",
+                        field: "spending",
+                        sort: false
+                    },
+                    {
+                        type: "formula",
+                        as: "share",
+                        expr: "(datum.endAngle - datum.startAngle) / (2 * PI)"
+                    }
+                ]
+            }
+        ],
+
+        scales: [
+            {
+                name: "pieColors",
+                type: "ordinal",
+                domain: [
+                    "Community health services",
+                    "Outpatient services",
+                    "Hospital services",
+                    "Other health",
+                    "Public health services",
+                    "Medical equipment"
+                ],
+                range: [
+                    "#168A91",
+                    "#315E9E",
+                    "#142B4A",
+                    "#63748A",
+                    "#4DAEB0",
+                    "#8DBFC0"
+                ]
+            }
+        ],
+        legends: [
+            {
+                fill: "pieColors",
+                orient: "none",
+                legendX: 520,
+                legendY: 120,
+                title: "Health spending category",
+                titleColor: "#142B4A",
+                titleFont: "Arial",
+                titleFontSize: 13,
+                titlePadding: 10,
+                labelColor: "#142B4A",
+                labelFont: "Arial",
+                labelFontSize: 13,
+                labelLimit: 220,
+                symbolType: "circle",
+                symbolSize: 180,
+                rowPadding: 8,
+                encode: {
+                    symbols: {
+                        name: "legendSymbol",
+                        interactive: true,
+                        update: {
+                            opacity: { signal: "selectedCategory === null || selectedCategory === datum.value ? 1 : 0.25" },
+                            cursor: { value: "pointer" }
+                        }
+                    },
+                    labels: {
+                        name: "legendLabel",
+                        interactive: true,
+                        update: {
+                            opacity: { signal: "selectedCategory === null || selectedCategory === datum.value ? 1 : 0.35" },
+                            cursor: { value: "pointer" }
+                        }
+                    }
+                }
+            }
+        ],
+        marks: [
+            {
+                type: "arc",
+                from: { data: "health" },
+                encode: {
+                    enter: {
+                        x: { value: 255 },
+                        y: { value: 210 },
+                        startAngle: { field: "startAngle" },
+                        endAngle: { field: "endAngle" },
+                        innerRadius: { value: 0 },
+                        outerRadius: { value: 165 },
+                        stroke: { value: "#E4F3F0" },
+                        strokeWidth: { value: 1 }
+                    },
+                    update: {
+                        fill: {
+                            scale: "pieColors",
+                            field: "category"
+                        },
+                        opacity: {
+                            signal: "selectedCategory === null || selectedCategory === datum.category ? 1 : 0.22"
+                        },
+                        tooltip: {
+                            signal: "{'Category': datum.category, 'Spending': 'A$' + format(datum.spending, ',.0f') + ' million', 'Share': format(datum.share * 100, '.1f') + '%'}"
+                        }
+                    }
+                }
+            },
+            {
+                type: "text",
+                from: { data: "health" },
+                encode: {
+                    enter: {
+                        x: {
+                            signal: "255 + 112 * cos((datum.startAngle + datum.endAngle) / 2 - PI / 2)"
+                        },
+                        y: {
+                            signal: "210 + 112 * sin((datum.startAngle + datum.endAngle) / 2 - PI / 2)"
+                        },
+                        text: {
+                            signal: "format(datum.share * 100, '.0f') + '%'"
+                        },
+                        align: { value: "center" },
+                        baseline: { value: "middle" },
+                        fill: { value: "#FFFFFF" },
+                        font: { value: "Arial" },
+                        fontSize: { value: 12 },
+                        fontWeight: { value: 700 }
+                    },
+                    update: {
+                        opacity: {
+                            signal: "selectedCategory === null || selectedCategory === datum.category ? 1 : 0.15"
+                        }
+                    }
+                }
+            }
+        ],
+
+        config: {
+            font: "Arial",
+            view: { stroke: null }
+        }
+    };
+
+    vegaEmbed("#chart8", chart8Spec, {
+        actions: false,
+        renderer: "svg"
+    }).catch(error => {
+        console.error("Chart 8 could not be loaded:", error);
+        document.getElementById("chart8").innerHTML =
+            '<p style="color:#142B4A;">Unable to load Chart 8. ' +
+            'Check the CSV path and browser console.</p>';
     });
     </script>
 </body>
