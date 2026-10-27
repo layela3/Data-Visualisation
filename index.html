@@ -151,6 +151,47 @@
             font-size: 12px;
             text-align: center;
         }
+        
+        .page .metadata {
+            margin-top: 200px;
+            padding-top: 40px;
+            padding-bottom: 35px;
+            border-top: 1px solid #D5E3E2;
+        }
+
+        .page .metadata {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 30px;
+            background: #E4F0EE;
+            border-radius: 12px;
+            color: #63748A;
+            text-align: center;
+            line-height: 1.75;
+        }
+
+        .page .metadata h2,
+        .page .metadata h3 {
+            color: #126B70;
+            text-align: center;
+        }
+
+        .page .metadata p {
+            color: #63748A;
+            font-size: 0.9rem;
+            text-align: center;
+            margin: 0.8em auto;
+        }
+
+        .page .metadata strong {
+            color: #142B4A;
+        }
+
+        .page .metadata + footer,
+        .page footer {
+            margin-top: 60px;
+        }
 
         @media (max-width: 600px) {
             .page {
@@ -186,7 +227,7 @@
 
         <section>
             <div class="chapter-label">
-                Chapter 1: Is Australia actally spending that much?
+                Chapter 1: Is Australia actually spending that much?
             </div>
 
             <p class="chart-description">
@@ -375,6 +416,57 @@
                 While the United States spends a staggering 16.5% of its GDP on healthcare to rank last among peer nations, Australia spends only about 10.5% of its GDP to achieve significantly higher life expectancy, lower infant mortality, and superior disease recovery rates.
             </p>
         </section>       
+
+        <section class="metadata"> 
+            <div class="chapter-label">About this project</div> 
+            
+            <h4>Data Sources & Methodology</h4> 
+            <p> <strong>Project:</strong> Is Australia a Big Spender? </p> 
+            <p> <strong>Author:</strong> Layela Moyo </p> 
+            <p> <strong>Publication date:</strong> 27 Oct 2026 </p>
+            
+            <h4>Data Sources</h4>
+            <p> 
+                Australian government finance and expenditure data was obtained from the Australian Bureau of Statistics
+                <a href=https://www.abs.gov.au/statistics/economy/government/government-finance-statistics-annual/latest-release?utm_source
+                    target="_blank" rel="noopener noreferrer"> (ABS)
+                </a>
+                Annual 2024-25
+            </p>
+            <p>
+                International government spendings were obtained from the 
+                <a href=https://data-explorer.oecd.org/vis?utm_source
+                    target="_blank" rel="noopener noreferrer"> (OECD)
+                </a> </p>
+            <p>
+                International health expenditure data was obtained from the 
+                <a href=https://data.worldbank.org/indicator/SH.XPD.GHED.PC.CD
+                    target="_blank" rel="noopener noreferrer"> World Bank's Group
+                </a>World Development Indicators.</p>
+            <p>
+                Hospital locations were sourced from
+                <a href=https://publicdata.au/d/au-hospitals-myhospitals/?utm_source
+                    target="_blank" rel="noopener noreferrer">Public Data Au
+                </a>by National Digital</p>
+            <p>
+                Australian map was sourced from Australian Bureau of Statistics,
+            <a href=https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-4-july-2026-june-2031/access-and-downloads/digital-boundary-files
+                    target="_blank" rel="noopener noreferrer">ABS
+                </a></p>
+            <p>
+                World map was sourced from
+                <a href=https://github.com/topojson/world-atlas?utm_source
+                    target="_blank" rel="noopener noreferrer">World Atlas
+                </a>
+            </p>
+            
+            <h4>Data Period and Units</h4>
+            <p> The visualisations cover the periods indicated in their individual captions. Depending on the chart, figures are presented in Australian dollars, millions of dollars, expenditure per person or percentages. </p>
+            
+            <h4>Methodology and Limitations</h4>
+            <p> Data was organised and transformed to support comparisons across years, government functions, Australian jurisdictions and countries. </p>
+            <p> All source notes should be read alongside the relevant chart. </p> 
+        </section>
 
         <footer>
             IS AUSTRALIA A BIG SPENDER? · A DATA STORY
